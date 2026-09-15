@@ -295,6 +295,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
   .tab-btn .lbl-short{display:inline;}
   .tab-btn[data-active="true"]{box-shadow:none;}
   .race-row-stats{flex-basis:100%;}
+  .climbed-search .search-input{font-size:16px;}
 }
 @media (min-width:720px){
   .tabbar{justify-content:center;}
@@ -548,7 +549,7 @@ async function loadData(bust){
 }
 
 /* ---------------- render: races ---------------- */
-const YEAR_COLORS = ['#8FE3B0','#5FCB8D','#2FA86B','#1F8850','#136B3C','#0A4D2A'];
+const YEAR_COLORS = ['#A8CC3D','#6BC24A','#2FA86B','#1B9E8C','#1F8850','#0F6B4C'];
 function yearOf(dateStr){ return parseInt((dateStr||'').split('/')[0], 10); }
 function yearColor(dateStr){
   const y = yearOf(dateStr);
