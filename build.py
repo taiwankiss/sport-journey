@@ -8,14 +8,23 @@ from cwa_pids import cwa_links
 TARGET = os.environ.get('BUILD_TARGET', 'artifact')
 OUT_FILE = os.environ.get('BUILD_OUT', 'data.json' if TARGET == 'artifact' else 'docs/data.json')
 
-PHOTO_ASSETS = json.load(open('photo_assets.json', encoding='utf-8'))['mountains']
+_PA = json.load(open('photo_assets.json', encoding='utf-8'))
+PHOTO_ASSETS = _PA['mountains']
+PHOTO_ASSETS_THUMB = _PA.get('mountains_thumb', {})
 LOCAL_PHOTOS = json.load(open('docs/photo_map.local.json', encoding='utf-8')) if TARGET == 'pages' else {}
+LOCAL_PHOTOS_THUMB = json.load(open('docs/photo_thumb_map.local.json', encoding='utf-8')) if TARGET == 'pages' else {}
 
 def photo_url(name):
     if TARGET == 'pages':
         return LOCAL_PHOTOS.get(name)
     aid = PHOTO_ASSETS.get(name)
     return ('/_blob/' + aid) if aid else None
+
+def photo_thumb_url(name):
+    if TARGET == 'pages':
+        return LOCAL_PHOTOS_THUMB.get(name) or LOCAL_PHOTOS.get(name)
+    aid = PHOTO_ASSETS_THUMB.get(name)
+    return ('/_blob/' + aid) if aid else photo_url(name)
 
 def read_csv(path):
     with open(path, encoding='utf-8') as f:
@@ -112,6 +121,7 @@ for r in rows[1:]:
         'shangHe': num(shangHe),
         'route': clean(route).replace('\n', ' '),
         'photoUrl': photo_url(clean(name).replace('\n', ' ')),
+        'photoThumbUrl': photo_thumb_url(clean(name).replace('\n', ' ')),
         'cwaLinks': cwa_links(clean(name).replace('\n', ' ')),
     })
 climbed.sort(key=lambda x: x['date'], reverse=True)
@@ -195,6 +205,7 @@ for r in rows:
             'estTime': clean(esttime) or ov.get('estTime', ''),
             'region': ov.get('region', ''),
             'photoUrl': photo_url(name),
+            'photoThumbUrl': photo_thumb_url(name),
             'cwaLinks': cwa_links(name),
         })
     elif section == 'done':

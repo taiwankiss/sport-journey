@@ -429,7 +429,7 @@ function mountainArt(seed, filled, snow){
 /** Real Wikimedia photo when we have one, else the procedural illustration. */
 function mtnArt(item, seed, filled, snow){
   if(item.photoUrl){
-    return `<img src="${esc(item.photoUrl)}" alt="${esc(item.name)}" loading="lazy">`;
+    return `<img src="${esc(item.photoThumbUrl||item.photoUrl)}" alt="${esc(item.name)}" loading="lazy">`;
   }
   return mountainArt(seed, filled, snow);
 }
