@@ -51,7 +51,7 @@ button{font:inherit;cursor:pointer;}
 
 /* ============ hero ============ */
 .hero{
-  position:relative;overflow:hidden;min-height:324px;
+  position:relative;overflow:hidden;min-height:400px;
   padding:22px 20px 18px;
   display:flex;align-items:center;justify-content:center;text-align:center;
   color:#FFFBF3;
@@ -65,7 +65,7 @@ button{font:inherit;cursor:pointer;}
   content:"";position:absolute;inset:0;z-index:1;
   background:
     radial-gradient(ellipse 70% 60% at 50% 50%, rgba(8,14,10,.42) 0%, rgba(8,14,10,.18) 48%, rgba(8,14,10,0) 78%),
-    linear-gradient(0deg, var(--bg) 0%, var(--bg) 2%, rgba(8,14,10,.4) 14%, rgba(8,14,10,.12) 26%, rgba(8,14,10,0) 40%);
+    linear-gradient(0deg, var(--bg) 0%, var(--bg) 4%, rgba(8,14,10,.55) 20%, rgba(8,14,10,.18) 38%, rgba(8,14,10,0) 55%);
 }
 .hero-center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;}
 .hero-title{font-family:"Poppins",sans-serif;font-style:italic;font-weight:700;font-size:36px;margin:0;line-height:1.15;text-shadow:0 2px 14px rgba(0,0,0,.55);}
@@ -78,7 +78,8 @@ button{font:inherit;cursor:pointer;}
 .sync-meta{margin-top:20px;font-family:"Poppins",sans-serif;font-weight:200;font-size:9.6px;letter-spacing:.04em;opacity:.88;text-shadow:0 1px 6px rgba(0,0,0,.5);}
 
 /* ============ tabs ============ */
-.tabbar{display:flex;gap:16px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:var(--bg);z-index:20;border-bottom:1px solid var(--line);}
+.tabbar{display:flex;gap:16px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:transparent;z-index:20;margin-top:-68px;transition:background .25s ease;}
+.tabbar.is-pinned{background:var(--bg);}
 .tabbar::-webkit-scrollbar{display:none;}
 .tab-btn{flex:none;display:flex;align-items:center;gap:6px;padding:9px 22.5px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);font-weight:600;font-size:13.5px;transition:.15s;}
 .tab-btn svg{width:16px;height:16px;}
@@ -170,8 +171,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .yms-dnf{font-size:20px;font-weight:700;color:var(--danger-ink);}
 .yms-row-dots{flex:1;min-width:160px;}
 .dots{display:flex;gap:4px;flex-wrap:wrap;}
-.dot{width:10px;height:8px;border-radius:3px;background:var(--line-strong);flex:none;}
-.dot.hit{background:linear-gradient(90deg, var(--brand-ink), var(--brand));}
+.dot{width:10px;height:2.7px;border-radius:2px;background:var(--line-strong);flex:none;background-repeat:no-repeat;}
 .yms-row-badge{flex:none;}
 .yms-row-chevron{flex:none;color:var(--ink-faint);}
 
@@ -239,7 +239,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 
 /* ============ bottom / desktop nav swap ============ */
 @media (max-width:719px){
-  .tabbar{position:fixed;bottom:0;left:0;right:0;top:auto;background:var(--surface);border-top:1px solid var(--line);border-bottom:none;padding:8px 8px calc(8px + env(safe-area-inset-bottom));justify-content:space-between;gap:2px;box-shadow:0 -4px 16px rgba(0,0,0,.08);}
+  .tabbar{position:fixed;bottom:0;left:0;right:0;top:auto;margin-top:0;background:var(--surface);border-top:1px solid var(--line);border-bottom:none;padding:8px 8px calc(8px + env(safe-area-inset-bottom));justify-content:space-between;gap:2px;box-shadow:0 -4px 16px rgba(0,0,0,.08);}
   .tab-btn{flex-direction:column;flex:1;padding:7px 4px;font-size:10.5px;border:none;background:none;gap:2px;border-radius:12px;}
   .tab-btn span{white-space:nowrap;}
   .tab-btn[data-active="true"]{box-shadow:none;}
@@ -635,7 +635,14 @@ function openClimbedDetail(m){
 /* ---------------- render: yms ---------------- */
 function renderYMS(){
   $('#ymsGrid').innerHTML = DATA.yms.map((y,i)=>{
-    const dots = y.checkpoints.map(c=>`<span class="dot ${c.time?'hit':''}"></span>`).join('');
+    const n = y.checkpoints.length;
+    const dotW = 10, dotGap = 4;
+    const rowW = n*dotW + (n-1)*dotGap;
+    const dots = y.checkpoints.map((c,ci)=>{
+      if(!c.time) return `<span class="dot"></span>`;
+      const pos = -(ci*(dotW+dotGap));
+      return `<span class="dot hit" style="background-image:linear-gradient(90deg, var(--brand-ink), var(--brand));background-size:${rowW}px 100%;background-position:${pos}px 0;"></span>`;
+    }).join('');
     const lastHit = [...y.checkpoints].reverse().find(c=>c.time);
     return `<article class="card yms-row" data-idx="${i}">
       <div class="yms-row-main">
@@ -1002,23 +1009,36 @@ async function boot(){
 }
 boot();
 
-/* ---------------- hero parallax ---------------- */
+/* ---------------- hero parallax + tabbar pin ---------------- */
 (function(){
   const bg = document.getElementById('heroBg');
   const hero = document.querySelector('.hero');
-  if(!bg || !hero) return;
-  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const tabbar = document.getElementById('tabbar');
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const factor = 0.35;
   let ticking = false;
   function update(){
-    const heroBottom = hero.getBoundingClientRect().bottom;
-    if(heroBottom > 0){
-      const y = window.scrollY || window.pageYOffset || 0;
-      bg.style.transform = 'translate3d(0,' + (y * factor) + 'px,0)';
+    if(bg && hero && !reduceMotion){
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      if(heroBottom > 0){
+        const y = window.scrollY || window.pageYOffset || 0;
+        bg.style.transform = 'translate3d(0,' + (y * factor) + 'px,0)';
+      }
+    }
+    if(tabbar){
+      if(window.innerWidth >= 720){
+        const stuck = tabbar.getBoundingClientRect().top <= 0;
+        tabbar.classList.toggle('is-pinned', stuck);
+      }else{
+        tabbar.classList.remove('is-pinned');
+      }
     }
     ticking = false;
   }
   window.addEventListener('scroll', function(){
+    if(!ticking){ requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+  window.addEventListener('resize', function(){
     if(!ticking){ requestAnimationFrame(update); ticking = true; }
   }, {passive:true});
   update();
