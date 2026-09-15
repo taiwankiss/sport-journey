@@ -1,0 +1,1027 @@
+<title>山徑運動誌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Poppins:ital,wght@0,200;1,700&display=swap">
+<style>
+/* ============ tokens ============ */
+:root{
+  --bg:#F5F2E6; --bg-soft:#EBE7D5; --surface:#FFFEF9; --surface-2:#F0EDDD;
+  --ink:#1E2A22; --ink-soft:#57685B; --ink-faint:#8A968B; --line:#DDD9C4; --line-strong:#CBC5A8;
+  --brand:#2F7A4F; --brand-ink:#1F5636; --brand-bg:#DEEEE0; --on-brand:#F5FBF6;
+  --accent:#F0862B; --accent-ink:#9A4E10; --accent-bg:#FCE6CC; --on-accent:#3D2200;
+  --danger:#D6503F; --danger-ink:#A3351F; --danger-bg:#FBE2DC;
+  --purple:#7C4FE0; --purple-ink:#5A34AE; --purple-bg:#EBE3FB;
+  --shadow:0 8px 24px -12px rgba(30,42,34,.28), 0 2px 6px -2px rgba(30,42,34,.14);
+  --shadow-sm:0 2px 8px -4px rgba(30,42,34,.22);
+  --r-lg:26px; --r-md:18px; --r-sm:12px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14100E; --bg-soft:#1B1613; --surface:#1C2721; --surface-2:#212D26;
+    --ink:#EAF2EA; --ink-soft:#AEC1B1; --ink-faint:#77897B; --line:#2B3B31; --line-strong:#3A4E40;
+    --brand:#63CB90; --brand-ink:#B9EAC9; --brand-bg:#1E3B2A; --on-brand:#0A170F;
+    --accent:#FFA557; --accent-ink:#FFD8A6; --accent-bg:#4A3016; --on-accent:#2A1600;
+    --danger:#FF8478; --danger-ink:#FFC3BB; --danger-bg:#4A241F;
+    --purple:#B196F7; --purple-ink:#DBCBFF; --purple-bg:#332A55;
+    --shadow:0 8px 28px -12px rgba(0,0,0,.55), 0 2px 8px -2px rgba(0,0,0,.35);
+    --shadow-sm:0 2px 10px -4px rgba(0,0,0,.45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14100E; --bg-soft:#1B1613; --surface:#1C2721; --surface-2:#212D26;
+  --ink:#EAF2EA; --ink-soft:#AEC1B1; --ink-faint:#77897B; --line:#2B3B31; --line-strong:#3A4E40;
+  --brand:#63CB90; --brand-ink:#B9EAC9; --brand-bg:#1E3B2A; --on-brand:#0A170F;
+  --accent:#FFA557; --accent-ink:#FFD8A6; --accent-bg:#4A3016; --on-accent:#2A1600;
+  --danger:#FF8478; --danger-ink:#FFC3BB; --danger-bg:#4A241F;
+  --purple:#B196F7; --purple-ink:#DBCBFF; --purple-bg:#332A55;
+  --shadow:0 8px 28px -12px rgba(0,0,0,.55), 0 2px 8px -2px rgba(0,0,0,.35);
+  --shadow-sm:0 2px 10px -4px rgba(0,0,0,.45);
+  color-scheme: dark;
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","M PLUS Rounded 1c",sans-serif;line-height:1.55;padding-bottom:92px;}
+h1,h2,h3,.disp{font-family:"M PLUS Rounded 1c","Noto Sans TC",sans-serif;text-wrap:balance;}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+.ico{width:14px;height:14px;vertical-align:-2.5px;flex:none;}
+.ico-lg{width:19px;height:19px;vertical-align:-4.5px;flex:none;}
+a{color:inherit;}
+button{font:inherit;cursor:pointer;}
+::selection{background:var(--brand);color:var(--on-brand);}
+
+/* ============ hero ============ */
+.hero{
+  position:relative;overflow:hidden;min-height:324px;
+  padding:22px 20px 18px;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  color:#FFFBF3;
+}
+.hero-bg{
+  position:absolute;left:0;right:0;top:-16%;height:132%;z-index:0;
+  background:url("/_blob/e76720761374010a427883344f2feeb5") center 42% / cover no-repeat;
+  will-change:transform;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(8,14,10,.42) 0%, rgba(8,14,10,.18) 48%, rgba(8,14,10,0) 78%),
+    linear-gradient(0deg, var(--bg) 0%, var(--bg) 2%, rgba(8,14,10,.4) 14%, rgba(8,14,10,.12) 26%, rgba(8,14,10,0) 40%);
+}
+.hero-center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;}
+.hero-title{font-family:"Poppins",sans-serif;font-style:italic;font-weight:700;font-size:36px;margin:0;line-height:1.15;text-shadow:0 2px 14px rgba(0,0,0,.55);}
+.sync-btn{position:absolute;top:16px;right:16px;z-index:2;display:flex;align-items:center;justify-content:center;width:38px;height:38px;flex:none;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:50%;backdrop-filter:blur(6px);transition:transform .15s ease, background .15s ease;}
+.sync-btn:hover{background:rgba(255,255,255,.3);}
+.sync-btn:active{transform:scale(.9);}
+.sync-btn svg{width:17px;height:17px;transition:transform .5s cubic-bezier(.34,1.56,.64,1);}
+.sync-btn.spinning svg{animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.sync-meta{margin-top:20px;font-family:"Poppins",sans-serif;font-weight:200;font-size:9.6px;letter-spacing:.04em;opacity:.88;text-shadow:0 1px 6px rgba(0,0,0,.5);}
+
+/* ============ tabs ============ */
+.tabbar{display:flex;gap:16px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:var(--bg);z-index:20;border-bottom:1px solid var(--line);}
+.tabbar::-webkit-scrollbar{display:none;}
+.tab-btn{flex:none;display:flex;align-items:center;gap:6px;padding:9px 22.5px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);font-weight:600;font-size:13.5px;transition:.15s;}
+.tab-btn svg{width:16px;height:16px;}
+.tab-btn[data-active="true"]{color:var(--on-brand);border-color:transparent;background:var(--brand);box-shadow:var(--shadow-sm);}
+
+main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
+.site-footer{text-align:center;padding:4px 16px 28px;color:var(--ink-faint);font-family:"Poppins",sans-serif;font-size:11px;font-weight:200;letter-spacing:.02em;}
+.panel{display:none;animation:fadein .35s ease;}
+.panel[data-active="true"]{display:block;}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.section-head h2{font-size:19px;margin:0;font-weight:700;display:flex;align-items:center;gap:7px;}
+.section-head p{margin:2px 0 0;color:var(--ink-soft);font-size:13px;}
+.sort-controls{display:flex;gap:6px;flex-wrap:wrap;}
+.sort-btn{display:flex;align-items:center;gap:4px;padding:6px 11px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);font-weight:600;font-size:12px;white-space:nowrap;}
+.sort-btn[data-active="true"],.sort-btn[aria-pressed="true"]{background:var(--brand-bg);border-color:var(--brand);color:var(--brand-ink);}
+.sort-btn .tri{width:9px;height:9px;flex:none;transition:transform .2s ease;}
+.sort-btn[data-dir="desc"] .tri{transform:rotate(180deg);}
+.pb-badge{display:flex;align-items:center;gap:6px;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:9px 22.5px;color:var(--ink-soft);}
+.pb-badge span{font-size:13.5px;font-weight:600;}
+.pb-badge b{font-family:"JetBrains Mono",monospace;font-size:13.5px;font-weight:600;color:var(--ink);}
+
+/* ============ cards grid ============ */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px;}
+
+/* race rows (one race per row, like the YMS list) */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap;}
+.badge.event{background:var(--brand-bg);color:var(--brand-ink);}
+.badge.upcoming-badge{background:var(--accent-bg);color:var(--accent-ink);}
+.races-list{display:flex;flex-direction:column;gap:10px;}
+.race-row{cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--line);}
+.race-row.upcoming{border-left-style:dashed;background:var(--bg-soft);}
+.race-row-rank{flex:none;width:30px;display:flex;align-items:center;justify-content:center;}
+.race-rank-badge{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:999px;white-space:nowrap;}
+.race-rank-badge.r1{background:#F5D36A;color:#5C3D00;}
+.race-rank-badge.r2{background:#D9DEE3;color:#3A4249;}
+.race-rank-badge.r3{background:#E7B48C;color:#5C3111;}
+.race-row-date{font-size:12px;color:var(--ink-faint);font-weight:700;white-space:nowrap;}
+.race-row-name{font-size:15px;font-weight:700;flex:1;min-width:150px;}
+.race-row-stats{display:grid;grid-template-columns:64px 60px 1fr;gap:12px;}
+.race-row-stats span{display:flex;flex-direction:column;gap:1px;min-width:0;}
+.race-row-stats b{font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:600;color:var(--ink);text-align:left;white-space:nowrap;}
+.race-row-stats i{font-style:normal;font-size:10px;color:var(--ink-faint);font-weight:600;text-align:left;white-space:nowrap;}
+.race-row-chevron{flex:none;color:var(--ink-faint);margin-left:auto;}
+.race-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;}
+.stat-box{background:var(--surface-2);border-radius:12px;padding:8px 10px;}
+.stat-box b{display:block;font-family:"JetBrains Mono",monospace;font-size:15px;}
+.stat-box span{font-size:10.5px;color:var(--ink-faint);font-weight:500;}
+.race-note{font-size:12px;color:var(--ink-soft);font-style:italic;}
+
+/* mountain card */
+.mtn-card{cursor:pointer;padding:0;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;}
+.mtn-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.mtn-art{width:100%;aspect-ratio:16/10;display:block;background:var(--surface-2);overflow:hidden;}
+.mtn-art img,.mtn-art svg{width:100%;height:100%;object-fit:cover;display:block;}
+.modal-photo{width:calc(100% + 40px);margin:-22px -20px 14px;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:24px 24px 0 0;}
+.weather-link{display:inline-flex;align-items:center;gap:6px;background:var(--accent-bg);color:var(--accent-ink);font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:999px;text-decoration:none;}
+.permit-link{display:inline-flex;align-items:center;gap:6px;background:var(--purple-bg);color:var(--purple-ink);font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:999px;text-decoration:none;}
+.weather-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.mtn-body{padding:14px 15px 16px;display:flex;flex-direction:column;gap:8px;}
+.mtn-name{font-size:16.5px;font-weight:700;margin:0;}
+.mtn-sub{font-size:12px;color:var(--ink-faint);font-weight:500;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.chips{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{font-size:10.5px;font-weight:600;padding:2.5px 8px;border-radius:8px;}
+.chip.peak{background:var(--brand-bg);color:var(--brand-ink);}
+.chip.small-peak{background:var(--accent-bg);color:var(--accent-ink);}
+.chip.style{background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line);}
+.mtn-stats{display:flex;gap:10px;font-size:12px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:8px;flex-wrap:wrap;}
+.mtn-stats b{color:var(--ink);font-family:"JetBrains Mono",monospace;font-weight:500;}
+
+/* wishlist card */
+.wish-card{cursor:pointer;padding:0;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;}
+.wish-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.wish-name{font-size:16.5px;font-weight:700;margin:0;}
+.wish-region{font-size:12px;color:var(--ink-faint);font-weight:500;}
+.wish-stats{display:flex;gap:14px;font-size:12px;color:var(--ink-soft);flex-wrap:wrap;}
+.wish-stats b{color:var(--brand-ink);font-family:"JetBrains Mono",monospace;}
+.wish-done-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
+.wish-done-strip .chip{background:var(--brand-bg);color:var(--brand-ink);font-size:12px;padding:6px 12px;border-radius:999px;}
+
+/* yms list rows (one attempt per row) */
+.yms-list{display:flex;flex-direction:column;gap:10px;}
+.yms-row{cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:18px;flex-wrap:wrap;}
+.yms-row-main{display:flex;align-items:baseline;gap:14px;min-width:170px;}
+.yms-date{font-size:13px;color:var(--ink-faint);font-weight:600;white-space:nowrap;}
+.yms-time{font-size:26px;font-weight:700;font-family:"JetBrains Mono",monospace;color:var(--brand-ink);}
+.yms-dnf{font-size:20px;font-weight:700;color:var(--danger-ink);}
+.yms-row-dots{flex:1;min-width:160px;}
+.dots{display:flex;gap:4px;flex-wrap:wrap;}
+.dot{width:10px;height:8px;border-radius:3px;background:var(--line-strong);flex:none;}
+.dot.hit{background:linear-gradient(90deg, var(--brand-ink), var(--brand));}
+.yms-row-badge{flex:none;}
+.yms-row-chevron{flex:none;color:var(--ink-faint);}
+
+/* empty & sub */
+.sub-note{font-size:12px;color:var(--ink-faint);margin-top:10px;}
+
+/* ============ modal ============ */
+.overlay{position:fixed;inset:0;background:rgba(20,15,28,.55);backdrop-filter:blur(2px);display:flex;align-items:flex-end;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+.overlay[data-open="true"]{opacity:1;pointer-events:auto;}
+.modal{background:var(--surface);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:22px 20px calc(24px + env(safe-area-inset-bottom));transform:translateY(24px);transition:transform .25s cubic-bezier(.32,.9,.35,1);position:relative;}
+.overlay[data-open="true"] .modal{transform:translateY(0);}
+@media (min-width:680px){
+  .overlay{align-items:center;}
+  .modal{border-radius:24px;margin:20px;}
+}
+.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink-soft);}
+.modal h3{margin:0 0 4px;font-size:20px;font-weight:700;padding-right:36px;}
+.detail-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;}
+.detail-row span:first-child{color:var(--ink-faint);font-weight:500;flex:none;}
+.detail-row span:last-child{text-align:right;color:var(--ink);}
+.route-box{background:var(--surface-2);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.7;margin-top:6px;color:var(--ink-soft);}
+.ckpt-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+.ckpt-table th{text-align:left;font-size:10.5px;color:var(--ink-faint);font-weight:600;padding:4px 6px;}
+.ckpt-table td{padding:7px 6px;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;}
+.ckpt-table td.name{font-family:"Noto Sans TC";font-weight:500;}
+
+/* ============ gear / checklist ============ */
+.gear-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--on-accent);font-weight:700;padding:11px 18px;border-radius:14px;border:none;box-shadow:var(--shadow-sm);}
+.btn-primary:active{transform:scale(.97);}
+.btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);padding:8px 14px;border-radius:12px;font-weight:600;font-size:13px;}
+.btn-danger{background:var(--danger-bg);color:var(--danger-ink);border:none;padding:8px 14px;border-radius:12px;font-weight:600;font-size:13px;}
+.gear-card{cursor:pointer;}
+.gear-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.gear-date{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent-ink);font-weight:600;}
+.gear-name{font-size:16.5px;font-weight:700;margin:2px 0 0;}
+.progress-track{height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:6px;}
+.progress-fill{height:100%;background:var(--brand);border-radius:999px;transition:width .3s ease;}
+.progress-label{font-size:11.5px;color:var(--ink-faint);font-weight:500;margin-top:4px;}
+.icon-btn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-faint);display:flex;align-items:center;justify-content:center;flex:none;}
+
+.gear-group{margin-top:16px;}
+.gear-group h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink);margin:0 0 8px;font-weight:700;}
+.gear-item{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid var(--line);}
+.gear-item input[type="checkbox"]{width:19px;height:19px;accent-color:var(--brand);flex:none;}
+.gear-item .txt{flex:1;font-size:14px;}
+.gear-item .txt.done{text-decoration:line-through;color:var(--ink-faint);}
+.gear-item .txt-input{flex:1;font-size:14px;border:none;border-bottom:1.5px solid var(--accent);background:transparent;color:var(--ink);padding:2px 0;}
+.gear-add-row{display:flex;gap:8px;margin-top:8px;}
+.gear-add-row input{flex:1;padding:8px 10px;border-radius:10px;border:1.5px dashed var(--line-strong);background:transparent;font-size:13.5px;color:var(--ink);}
+.gear-add-row button{background:var(--accent-bg);color:var(--accent-ink);border:none;border-radius:10px;padding:0 14px;font-weight:700;}
+.field-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.field{flex:1;min-width:120px;display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:11px;color:var(--ink-faint);font-weight:600;}
+.field input{padding:9px 11px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);font-size:14px;}
+.empty-state{text-align:center;padding:50px 20px;color:var(--ink-faint);}
+.empty-state svg{width:52px;height:52px;opacity:.5;margin-bottom:10px;}
+
+/* mini confirm */
+.confirm-box{background:var(--danger-bg);border:1px solid var(--danger);border-radius:14px;padding:14px;margin-top:12px;font-size:13.5px;color:var(--danger-ink);}
+.confirm-actions{display:flex;gap:8px;margin-top:10px;}
+
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:200;box-shadow:var(--shadow);}
+.toast[data-show="true"]{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ============ bottom / desktop nav swap ============ */
+@media (max-width:719px){
+  .tabbar{position:fixed;bottom:0;left:0;right:0;top:auto;background:var(--surface);border-top:1px solid var(--line);border-bottom:none;padding:8px 8px calc(8px + env(safe-area-inset-bottom));justify-content:space-between;gap:2px;box-shadow:0 -4px 16px rgba(0,0,0,.08);}
+  .tab-btn{flex-direction:column;flex:1;padding:7px 4px;font-size:10.5px;border:none;background:none;gap:2px;border-radius:12px;}
+  .tab-btn span{white-space:nowrap;}
+  .tab-btn[data-active="true"]{box-shadow:none;}
+  .race-row-stats{flex-basis:100%;}
+}
+@media (min-width:720px){
+  .tabbar{justify-content:center;}
+  .hero-title{font-size:46px;}
+  .sync-meta{font-size:11.2px;}
+}
+</style>
+
+<div class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <button class="sync-btn" id="syncBtn" type="button" aria-label="重新整理" title="重新整理">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+  </button>
+  <div class="hero-center">
+    <h1 class="hero-title">Wei's Sport Journey</h1>
+    <div class="sync-meta" id="syncMeta">Last update …</div>
+  </div>
+</div>
+
+<nav class="tabbar" id="tabbar">
+  <button class="tab-btn" data-tab="climbed" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z"/><circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"/></svg><span>爬過的山</span></button>
+  <button class="tab-btn" data-tab="wishlist" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z" stroke-dasharray="3 2.4"/></svg><span>想爬的山</span></button>
+  <button class="tab-btn" data-tab="yms" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l4-8 3 4 3-7 3 6 2-3 5 8Z"/></svg><span>陽明大縱走</span></button>
+  <button class="tab-btn" data-tab="gear" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V6a5 5 0 0 1 10 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 13h6"/></svg><span>裝備檢查</span></button>
+  <button class="tab-btn" data-tab="races" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 4.6a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" fill="currentColor" stroke="none"/><path d="M13 7.3 9.5 13.8M9.5 13.8 14 16.3 12.4 21M9.5 13.8 6.3 17.4 3.3 16.8M13 8 9.8 7 7.8 4.2M13 8 15.8 10.8 17.3 14.2"/></svg><span>路跑賽事</span></button>
+</nav>
+
+<main>
+  <section class="panel" data-panel="climbed">
+    <div class="section-head">
+      <div><h2><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z"/><circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"/></svg> 爬過的山</h2><p>點一張卡片看完整行程紀錄</p></div>
+      <div class="sort-controls" id="climbedSortControls" data-tab="climbed">
+        <button class="sort-btn" id="peakOnlyToggle" aria-pressed="false" type="button">只看百岳</button>
+        <button class="sort-btn" data-field="date" type="button">日期<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
+        <button class="sort-btn" data-field="distanceKm" type="button">里程<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
+        <button class="sort-btn" data-field="gainM" type="button">爬升<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
+      </div>
+    </div>
+    <div id="climbedGrid" class="grid"></div>
+  </section>
+
+  <section class="panel" data-panel="wishlist">
+    <div class="section-head">
+      <div><h2><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z" stroke-dasharray="3 2.4"/></svg> 想爬的山</h2><p>下一趟要去哪座山？</p></div>
+      <div class="sort-controls" id="wishlistSortControls" data-tab="wishlist">
+        <button class="sort-btn" data-field="distance" type="button">里程<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
+        <button class="sort-btn" data-field="gain" type="button">爬升<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
+      </div>
+    </div>
+    <div id="wishlistGrid" class="grid"></div>
+    <div id="wishlistDone"></div>
+  </section>
+
+  <section class="panel" data-panel="yms">
+    <div class="section-head"><div><h2><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l4-8 3 4 3-7 3 6 2-3 5 8Z"/></svg> 陽明山大縱走</h2><p>風櫃嘴 → 七星山 → 大屯山 → 清天宮，每次的分段紀錄</p></div></div>
+    <div id="ymsGrid" class="yms-list"></div>
+  </section>
+
+  <section class="panel" data-panel="gear">
+    <div class="section-head"><div><h2><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V6a5 5 0 0 1 10 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 13h6"/></svg> 登山物品檢查</h2><p>每趟行程建立一份新清單，出發前逐項勾選</p></div></div>
+    <div class="gear-toolbar">
+      <span class="sub-note" id="gearHint" style="margin:0;"></span>
+      <button class="btn-primary" id="newChecklistBtn" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        新增檢查清單
+      </button>
+    </div>
+    <div id="gearGrid" class="grid"></div>
+  </section>
+
+  <section class="panel" data-panel="races">
+    <div class="section-head">
+      <div><h2><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 4.6a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" fill="currentColor" stroke="none"/><path d="M13 7.3 9.5 13.8M9.5 13.8 14 16.3 12.4 21M9.5 13.8 6.3 17.4 3.3 16.8M13 8 9.8 7 7.8 4.2M13 8 15.8 10.8 17.3 14.2"/></svg> 路跑賽事</h2><p>每一場比賽的成績與心得</p></div>
+      <div class="pb-badge"><span>半馬 PB</span><b id="racesPBValue">—</b></div>
+    </div>
+    <div id="racesGrid" class="races-list"></div>
+  </section>
+</main>
+
+<footer class="site-footer">Copyright © 2026 Wei. All rights reserved.</footer>
+
+<div class="overlay" id="overlay"><div class="modal" id="modalBody"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- helpers ---------------- */
+const $ = (s,el)=> (el||document).querySelector(s);
+const $$ = (s,el)=> Array.from((el||document).querySelectorAll(s));
+const esc = (s)=> String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------------- line icons (no colour emoji) ---------------- */
+const ICONS = {
+  calendar:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>`,
+  pin:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.7-7-11.5a7 7 0 0 1 14 0C19 14.3 12 21 12 21Z"/><circle cx="12" cy="9.7" r="2.3"/></svg>`,
+  peak:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 19.5l6.2-11 4 6 2-3 6.3 8Z"/></svg>`,
+  clock:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.3V12l3.3 2"/></svg>`,
+  walk:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="5" r="1.6" fill="currentColor" stroke="none"/><path d="M6.8 17.3C10.5 13 13.5 10 17.2 6.7" stroke-dasharray="2.6 2.6"/></svg>`,
+  shoe:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.2c0-1 .7-1.7 1.7-2.2L10 11.3l2.6-2.7c.8-.8 2-1.1 3-.5l3.7 2.1c1 .5 1.7 1.6 1.7 2.7V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 16h18M7.2 13.6v2.2"/></svg>`,
+  chat:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H9.7L5 20.3a.5.5 0 0 1-.5-.4Z"/></svg>`,
+  compass:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.8"/><path d="M15.3 8.7 13 13l-4.3 2.3L11 11l4.3-2.3Z"/></svg>`,
+  trending:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17l5-5.2 3.7 3.7L20.5 7"/><path d="M14.5 7h6v6"/></svg>`,
+  check:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.8"/><path d="M7.8 12.3l2.7 2.7L16.3 9"/></svg>`,
+  weather:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.3" cy="7.8" r="3"/><path d="M8.3 2.3v1.5M8.3 12v1.5M2.6 7.8h1.5M12.4 7.8h1.5M4.5 4l1 1M10.6 5l1-1"/><path d="M9 20.2a4.1 4.1 0 0 1 .4-8.2 5.1 5.1 0 0 1 9.7 1.9 3.9 3.9 0 0 1-.7 7.7l-9.4.6Z"/></svg>`,
+  search:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>`,
+  permit:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.2"/><path d="M8 8h8M8 12h8M8 16h4.5"/></svg>`,
+  headRace:`<svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 4.6a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" fill="currentColor" stroke="none"/><path d="M13 7.3 9.5 13.8M9.5 13.8 14 16.3 12.4 21M9.5 13.8 6.3 17.4 3.3 16.8M13 8 9.8 7 7.8 4.2M13 8 15.8 10.8 17.3 14.2"/></svg>`,
+  headMountain:`<svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z"/><circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"/></svg>`,
+  headMap:`<svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z" stroke-dasharray="3 2.4"/></svg>`,
+  headRidge:`<svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l4-8 3 4 3-7 3 6 2-3 5 8Z"/></svg>`,
+  headBag:`<svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V6a5 5 0 0 1 10 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 13h6"/></svg>`,
+};
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.setAttribute('data-show','true');
+  clearTimeout(toast._h); toast._h = setTimeout(()=> t.setAttribute('data-show','false'), 2200);
+}
+function openModal(html){
+  $('#modalBody').innerHTML = '<button class="modal-close" id="modalCloseBtn" type="button">✕</button>' + html;
+  $('#overlay').setAttribute('data-open','true');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  $('#overlay').setAttribute('data-open','false');
+  document.body.style.overflow = '';
+}
+$('#overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay') closeModal(); });
+document.addEventListener('click', (e)=>{ if(e.target.closest('#modalCloseBtn')) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+/* ---------------- SVG mountain illustrations ---------------- */
+const PALETTES = [
+  {sky:['#FFD8A8','#FF9F7A'], far:'#F2926B', near:'#D8674E', sun:'#FFE9B0'},
+  {sky:['#BEE8FF','#7FC4EE'], far:'#5B9FCF', near:'#3E77AE', sun:'#FFF3C4'},
+  {sky:['#D8F3DD','#9FDDB4'], far:'#6FB98C', near:'#3E8F65', sun:'#FFF0B8'},
+  {sky:['#F4DBFF','#CDA6F0'], far:'#A97DDC', near:'#7C55B3', sun:'#FFE9CE'},
+  {sky:['#FFE3D6','#FFB37A'], far:'#F08A55', near:'#C4602F', sun:'#FFF3D0'},
+  {sky:['#E4ECFF','#A9C0F2'], far:'#7C97DD', near:'#5570B8', sun:'#FFF6D8'}
+];
+function seededRand(seed){
+  let s = seed % 2147483647; if (s<=0) s += 2147483646;
+  return function(){ s = (s*16807)%2147483647; return (s-1)/2147483646; };
+}
+function peakPath(rand, baseY, amp, w, n){
+  let pts = ['0,60'];
+  for(let i=0;i<=n;i++){
+    const x = (w/n)*i;
+    const y = baseY - rand()*amp - (i===Math.round(n*0.5)?amp*0.5:0);
+    pts.push(x.toFixed(1)+','+y.toFixed(1));
+  }
+  pts.push(w+',60');
+  return 'M'+pts.join(' L')+' Z';
+}
+let _artUid = 0;
+function mountainArt(seed, filled, snow){
+  const uid = 'g' + (_artUid++);
+  const pal = PALETTES[seed % PALETTES.length];
+  const rand = seededRand(seed*97+13);
+  const far = peakPath(rand, 40, 16, 200, 5);
+  const near = peakPath(rand, 48, 22, 200, 4);
+  const dash = filled ? '' : 'stroke-dasharray="4 3.5" fill-opacity="0.16"';
+  const strokeFar = filled ? 'none' : pal.far;
+  const strokeNear = filled ? 'none' : pal.near;
+  let snowMark = '';
+  if(snow){
+    snowMark = `<path d="M96 34 L104 44 L112 34 L108 40 L100 40 Z" fill="${filled?'#fff':'none'}" ${filled?'':'stroke="#fff" stroke-width="1.2"'} opacity="${filled?0.95:0.8}"/>`;
+  }
+  return `<svg viewBox="0 0 200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+    <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${pal.sky[0]}"/><stop offset="1" stop-color="${pal.sky[1]}"/>
+    </linearGradient></defs>
+    <rect width="200" height="60" fill="url(#${uid})"/>
+    <circle cx="150" cy="16" r="9" fill="${pal.sun}" opacity="${filled?0.9:0.55}"/>
+    <path d="${far}" fill="${filled?pal.far:'none'}" stroke="${strokeFar}" stroke-width="${filled?0:1.4}" opacity="${filled?0.85:0.7}" ${dash}/>
+    <path d="${near}" fill="${filled?pal.near:'none'}" stroke="${strokeNear}" stroke-width="${filled?0:1.6}" ${dash}/>
+    ${snowMark}
+  </svg>`;
+}
+/** Real Wikimedia photo when we have one, else the procedural illustration. */
+function mtnArt(item, seed, filled, snow){
+  if(item.photoUrl){
+    return `<img src="${esc(item.photoUrl)}" alt="${esc(item.name)}" loading="lazy">`;
+  }
+  return mountainArt(seed, filled, snow);
+}
+/** Wishlist detail: weather forecast link(s) plus a permit-application link (only when this mountain actually needs one), in one row. */
+function wishlistLinksHtml(w){
+  const weather = (w.cwaLinks||[]).map(l=>
+    `<a class="weather-link" href="https://www.cwa.gov.tw/V8/C/L/Mountain/Mountain.html?PID=${esc(l.pid)}" target="_blank" rel="noopener">${ICONS.weather} ${esc(l.name)}天氣預報</a>`
+  ).join('');
+  const permit = w.needPermit ? `<a class="permit-link" href="https://hike.taiwan.gov.tw/apply_1.aspx" target="_blank" rel="noopener">${ICONS.permit} 入園申請</a>` : '';
+  if(!weather && !permit) return '';
+  return `<div class="weather-links">${weather}${permit}</div>`;
+}
+
+/* ---------------- data load ---------------- */
+let DATA = {races:[],climbed:[],wishlist:[],wishlistDone:[],yms:[],checklistTemplate:[],syncedAt:''};
+
+async function loadData(bust){
+  const url = 'data.json' + (bust ? ('?t='+Date.now()) : '');
+  const res = await fetch(url);
+  DATA = await res.json();
+}
+
+/* ---------------- render: races ---------------- */
+const YEAR_COLORS = ['#FF6B4A','#2F8FE0','#0E8F72','#B45BD8','#DB930F','#4C63B8'];
+function yearOf(dateStr){ return parseInt((dateStr||'').split('/')[0], 10); }
+function yearColor(dateStr){
+  const y = yearOf(dateStr);
+  return isNaN(y) ? 'var(--line)' : YEAR_COLORS[((y%YEAR_COLORS.length)+YEAR_COLORS.length)%YEAR_COLORS.length];
+}
+function paceSeconds(pace){
+  const m = /^(\d+):(\d+)$/.exec((pace||'').trim());
+  return m ? (+m[1])*60+(+m[2]) : NaN;
+}
+function timeSeconds(t){
+  const parts = (t||'').trim().split(':').map(Number);
+  if(!parts.length || parts.some(isNaN)) return NaN;
+  if(parts.length===3) return parts[0]*3600+parts[1]*60+parts[2];
+  if(parts.length===2) return parts[0]*60+parts[1];
+  return NaN;
+}
+function renderRaces(){
+  const done = DATA.races.filter(r=>!r.upcoming);
+  const bestHalf = done.filter(r=>r.event==='半馬' && r.personalTime).sort((a,b)=> a.personalTime.localeCompare(b.personalTime))[0];
+  $('#racesPBValue').textContent = bestHalf ? bestHalf.personalTime : '—';
+
+  const ranked = [...done].filter(r=>!isNaN(timeSeconds(r.personalTime))).sort((a,b)=> timeSeconds(a.personalTime)-timeSeconds(b.personalTime));
+  const rankOf = new Map(ranked.slice(0,3).map((r,i)=>[r,i+1]));
+  const medal = {1:['1','r1'],2:['2','r2'],3:['3','r3']};
+
+  $('#racesGrid').innerHTML = DATA.races.map(r=>{
+    const rk = rankOf.get(r);
+    const rankHtml = rk ? `<span class="race-rank-badge ${medal[rk][1]}">${medal[rk][0]}</span>` : '';
+    const idx = DATA.races.indexOf(r);
+    if(r.upcoming){
+      return `<article class="card race-row upcoming" data-idx="${idx}" style="border-left-color:${yearColor(r.date)}">
+        <div class="race-row-rank"></div>
+        <span class="race-row-date mono">${esc(r.date)}</span>
+        <span class="badge event">${esc(r.event)}</span>
+        <div class="race-row-name">${esc(r.name)}</div>
+        <span class="badge upcoming-badge">即將到來</span>
+      </article>`;
+    }
+    return `<article class="card race-row" data-idx="${idx}" style="border-left-color:${yearColor(r.date)}">
+      <div class="race-row-rank">${rankHtml}</div>
+      <span class="race-row-date mono">${esc(r.date)}</span>
+      <span class="badge event">${esc(r.event)}${r.group?(' · '+esc(r.group)):''}</span>
+      <div class="race-row-name">${esc(r.name)}</div>
+      <div class="race-row-stats">
+        <span><b>${esc(r.personalTime||'—')}</b><i>個人時間</i></span>
+        <span><b>${esc(r.pace||'—')}</b><i>配速 /km</i></span>
+        <span><b>${esc(r.rankTotal||'—')}</b><i>總排名</i></span>
+      </div>
+      <svg class="race-row-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </article>`;
+  }).join('');
+}
+document.addEventListener('click', (e)=>{
+  const row = e.target.closest('.race-row');
+  if(row){ openRaceDetail(DATA.races[+row.dataset.idx]); }
+});
+function openRaceDetail(r){
+  if(r.upcoming){
+    openModal(`
+      <h3>${esc(r.name)}</h3>
+      <div class="mtn-sub">${ICONS.calendar} ${esc(r.date)} · <span class="badge event">${esc(r.event)}</span></div>
+      <p class="sub-note">即將到來的賽事，還沒有成績。</p>
+    `);
+    return;
+  }
+  openModal(`
+    <h3>${esc(r.name)}</h3>
+    <div class="mtn-sub">${ICONS.calendar} ${esc(r.date)} · <span class="badge event">${esc(r.event)}${r.group?(' · '+esc(r.group)):''}</span></div>
+    <div class="race-stats" style="margin-top:12px">
+      <div class="stat-box"><b>${esc(r.personalTime||'—')}</b><span>個人時間</span></div>
+      <div class="stat-box"><b>${esc(r.pace||'—')}</b><span>平均配速 /km</span></div>
+      <div class="stat-box"><b>${esc(r.rankTotal||'—')}</b><span>總排名 ${esc(r.rankPct||'')}</span></div>
+      <div class="stat-box"><b>${esc(r.groupRank||'—')}</b><span>分組排名 ${esc(r.groupPct||'')}</span></div>
+    </div>
+    <div class="detail-row"><span>大會時間</span><span>${esc(r.officialTime||'—')}</span></div>
+    <div class="detail-row"><span>${ICONS.shoe}　鞋款</span><span>${esc(r.shoes||'—')}</span></div>
+    ${r.note ? `<div class="race-note" style="margin-top:10px">${ICONS.chat} ${esc(r.note)}</div>` : ''}
+  `);
+}
+
+/* ---------------- sorting (shared by climbed + wishlist) ---------------- */
+let climbedSort = {field:null, dirs:{date:'asc', distanceKm:'asc', gainM:'asc'}};
+let wishlistSort = {field:null, dirs:{distance:'asc', gain:'asc'}};
+const parseNum = (s)=>{ if(s==null) return NaN; const m = String(s).match(/[\d.]+/); return m ? parseFloat(m[0]) : NaN; };
+function applySort(list, sortState, getVal){
+  if(!sortState.field) return list;
+  const dir = sortState.dirs[sortState.field];
+  const f = sortState.field;
+  const isEmpty = (v)=> v==null || v==='' || (typeof v==='number' && isNaN(v));
+  return [...list].sort((a,b)=>{
+    const va = getVal(a,f), vb = getVal(b,f);
+    const ea = isEmpty(va), eb = isEmpty(vb);
+    if(ea && eb) return 0;
+    if(ea) return 1;
+    if(eb) return -1;
+    if(va<vb) return dir==='asc' ? -1 : 1;
+    if(va>vb) return dir==='asc' ? 1 : -1;
+    return 0;
+  });
+}
+function updateSortButtons(containerId, sortState){
+  $$(`#${containerId} .sort-btn`).forEach(btn=>{
+    const f = btn.dataset.field;
+    btn.setAttribute('data-active', String(sortState.field===f));
+    btn.setAttribute('data-dir', sortState.dirs[f]);
+  });
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.sort-btn');
+  if(!btn || !btn.dataset.field) return;
+  const container = btn.closest('.sort-controls');
+  const tab = container.dataset.tab;
+  const field = btn.dataset.field;
+  if(tab==='climbed'){
+    climbedSort.dirs[field] = climbedSort.dirs[field]==='asc' ? 'desc' : 'asc';
+    climbedSort.field = field;
+    renderClimbed();
+  }else if(tab==='wishlist'){
+    wishlistSort.dirs[field] = wishlistSort.dirs[field]==='asc' ? 'desc' : 'asc';
+    wishlistSort.field = field;
+    renderWishlist();
+  }
+});
+
+/* ---------------- render: climbed ---------------- */
+let climbedFilter = {peakOnly:false};
+function codeChip(c){
+  const isSmall = c.indexOf('小百岳')===0;
+  return `<span class="chip ${isSmall?'small-peak':'peak'}">${esc(c)}</span>`;
+}
+function renderClimbed(){
+  let list = DATA.climbed.filter(m=>{
+    if(climbedFilter.peakOnly && !m.code.some(c=>c.indexOf('百岳')===0)) return false;
+    return true;
+  });
+  list = applySort(list, climbedSort, (m,f)=> f==='date' ? m.date : m[f]);
+  updateSortButtons('climbedSortControls', climbedSort);
+  $('#climbedGrid').innerHTML = list.length ? list.map((m)=>{
+    const idx = DATA.climbed.indexOf(m);
+    const chips = m.code.map(codeChip);
+    return `<article class="card mtn-card" data-idx="${idx}">
+      <div class="mtn-art">${mtnArt(m, idx, true, m.code.length>0)}</div>
+      <div class="mtn-body">
+        <h3 class="mtn-name">${esc(m.name)}</h3>
+        <div class="mtn-sub">${ICONS.calendar} ${esc(m.date)} ${m.region?('· '+ICONS.pin+' '+esc(m.region)):''}</div>
+        <div class="chips">${chips.join('')}<span class="chip style">${esc(m.style)}</span></div>
+        <div class="mtn-stats">
+          <span>${ICONS.walk} <b>${m.distanceKm!=null?m.distanceKm+'km':'—'}</b></span>
+          <span>${ICONS.peak} <b>${m.gainM!=null?m.gainM+'m':'—'}</b></span>
+          <span>${ICONS.clock} <b>${esc(m.totalTime||'—')}</b></span>
+        </div>
+      </div>
+    </article>`;
+  }).join('') : `<div class="empty-state" style="grid-column:1/-1">${ICONS.search}<div>沒有符合的山</div></div>`;
+}
+document.addEventListener('click', (e)=>{
+  const card = e.target.closest('.mtn-card');
+  if(card){ openClimbedDetail(DATA.climbed[+card.dataset.idx]); }
+});
+function openClimbedDetail(m){
+  const codes = m.code.length ? m.code.join('、') : '—';
+  const myrank = m.myRank.length ? m.myRank.join('、') : '';
+  const shangHeLine = m.shangHe ? `<div class="detail-row"><span>上河比對</span><span>${m.shangHe} · 比參考時間快 ${Math.round((1-m.shangHe)*100)}%</span></div>` : '';
+  openModal(`
+    ${m.photoUrl ? `<img class="modal-photo" src="${esc(m.photoUrl)}" alt="${esc(m.name)}">` : ''}
+    <h3>${esc(m.name)}</h3>
+    <div class="mtn-sub">${ICONS.calendar} ${esc(m.date)} ${m.region?('· '+ICONS.pin+' '+esc(m.region)):''} ${m.title?('· '+esc(m.title)):''}</div>
+    <div class="chips" style="margin-top:8px">${m.code.map(codeChip).join('')}<span class="chip style">${esc(m.style)}</span></div>
+    <div style="margin-top:14px">
+      <div class="detail-row"><span>百岳編號</span><span>${esc(codes)}</span></div>
+      ${myrank?`<div class="detail-row"><span>個人百岳紀錄</span><span>第 ${esc(myrank.replace(/#/g,''))} 座</span></div>`:''}
+      <div class="detail-row"><span>總里程</span><span>${m.distanceKm!=null?m.distanceKm+' km':'—'}</span></div>
+      <div class="detail-row"><span>總爬升</span><span>${m.gainM!=null?m.gainM+' m':'—'}</span></div>
+      <div class="detail-row"><span>含休息總時間</span><span>${esc(m.totalTime||'—')}</span></div>
+      <div class="detail-row"><span>均速</span><span>${m.speedKmh!=null?m.speedKmh+' km/h':'—'}</span></div>
+      ${shangHeLine}
+    </div>
+    ${m.route ? `<div class="route-box">${ICONS.compass} ${esc(m.route)}</div>` : ''}
+  `);
+}
+
+/* ---------------- render: yms ---------------- */
+function renderYMS(){
+  $('#ymsGrid').innerHTML = DATA.yms.map((y,i)=>{
+    const dots = y.checkpoints.map(c=>`<span class="dot ${c.time?'hit':''}"></span>`).join('');
+    const lastHit = [...y.checkpoints].reverse().find(c=>c.time);
+    return `<article class="card yms-row" data-idx="${i}">
+      <div class="yms-row-main">
+        <span class="yms-date mono">${esc(y.date)}</span>
+        ${y.dnf ? `<span class="yms-dnf">DNF</span>` : `<span class="yms-time">${esc(y.totalTime)}</span>`}
+      </div>
+      <div class="yms-row-dots">
+        <div class="dots">${dots}</div>
+      </div>
+      <span class="badge yms-row-badge ${y.dnf?'upcoming-badge':'event'}">${y.dnf? '止於 '+esc(lastHit?lastHit.name:'') : '完成全程'}</span>
+      <svg class="yms-row-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </article>`;
+  }).join('');
+}
+document.addEventListener('click', (e)=>{
+  const card = e.target.closest('.yms-row');
+  if(card){ openYmsDetail(DATA.yms[+card.dataset.idx]); }
+});
+function openYmsDetail(y){
+  const rows = y.checkpoints.map(c=> `<tr><td class="name">${esc(c.name)}</td><td>${esc(c.time||'—')}</td><td>${esc(c.split||(c.time?'':''))}</td></tr>`).join('');
+  openModal(`
+    <h3>${ICONS.headRidge} 陽明山東西大縱走</h3>
+    <div class="mtn-sub">${ICONS.calendar} ${esc(y.date)} ${y.dnf?'· <span style="color:var(--danger-ink);font-weight:600">未完成全程</span>':('· 總時間 '+esc(y.totalTime))}</div>
+    <table class="ckpt-table">
+      <thead><tr><th>檢查點</th><th>抵達時間</th><th>前往下一站</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    ${y.note?`<div class="route-box">${ICONS.chat} ${esc(y.note.replace(/\n/g,'　'))}</div>`:''}
+  `);
+}
+
+/* ---------------- render: wishlist ---------------- */
+function renderWishlist(){
+  let list = applySort(DATA.wishlist, wishlistSort, (w,f)=> parseNum(w[f]));
+  updateSortButtons('wishlistSortControls', wishlistSort);
+  $('#wishlistGrid').innerHTML = list.map((w)=>{
+    const i = DATA.wishlist.indexOf(w);
+    return `
+    <article class="card wish-card" data-idx="${i}">
+      <div class="mtn-art">${mtnArt(w, i+11, false, true)}</div>
+      <div class="mtn-body">
+        <h3 class="wish-name">${esc(w.name)}</h3>
+        <div class="wish-region">${ICONS.pin} ${esc(w.region||'台灣')} ${w.elevation?('· '+ICONS.peak+' '+esc(w.elevation)):''}</div>
+        <div class="wish-stats">
+          <span>${ICONS.walk} <b>${esc(w.distance||'—')}</b></span>
+          <span>${ICONS.trending} <b>${esc(w.gain||'—')}</b></span>
+        </div>
+        <div class="chips">
+          ${w.needPermit?'<span class="chip small-peak">需入園申請</span>':''}
+          ${w.estTime?`<span class="chip style">${ICONS.clock} ${esc(w.estTime)}</span>`:''}
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+  $('#wishlistDone').innerHTML = DATA.wishlistDone.length ? `
+    <h4 style="font-size:13px;color:var(--ink-faint);font-weight:700;margin:0 0 8px">${ICONS.check} 已完成的階段目標</h4>
+    <div class="wish-done-strip">${DATA.wishlistDone.map(n=>`<span class="chip">${esc(n)}</span>`).join('')}</div>
+  ` : '';
+}
+document.addEventListener('click', (e)=>{
+  const card = e.target.closest('.wish-card');
+  if(card){ openWishDetail(DATA.wishlist[+card.dataset.idx]); }
+});
+function openWishDetail(w){
+  const rows = [
+    ['海拔', w.elevation], ['預估時間', w.estTime], ['總里程', w.distance], ['總爬升', w.gain],
+    ['入園申請', w.needPermit||'不需要'], ['停車 / 起登點', w.trailhead||w.parking],
+    ['板橋開車時間', w.driveTime], ['可能住宿', w.stay], ['備註', w.note],
+  ].filter(r=>r[1]);
+  openModal(`
+    ${w.photoUrl ? `<img class="modal-photo" src="${esc(w.photoUrl)}" alt="${esc(w.name)}">` : ''}
+    <h3>${esc(w.name)}</h3>
+    <div class="mtn-sub">${ICONS.pin} ${esc(w.region||'台灣')}</div>
+    <div style="margin-top:12px">${rows.map(r=>`<div class="detail-row"><span>${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join('')}</div>
+    ${w.route?`<div class="route-box">${ICONS.compass} ${esc(w.route)}</div>`:''}
+    ${wishlistLinksHtml(w)}
+  `);
+}
+
+/* ---------------- checklist store (db, fallback localStorage) ---------------- */
+let dbNs = null, dbReady = false;
+const LS_KEY = 'trailjournal_checklists_v1';
+function lsRead(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||'[]'); }catch(e){ return []; } }
+function lsWrite(list){ try{ localStorage.setItem(LS_KEY, JSON.stringify(list)); }catch(e){} }
+
+const Store = {
+  async list(){
+    if(dbNs){
+      try{
+        const snap = await dbNs.collection('checklists').orderBy('date','desc').get();
+        return snap.docs.map(d=> Object.assign({id:d.id}, d.data()));
+      }catch(e){ console.warn('db list failed, falling back', e); }
+    }
+    return lsRead().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  },
+  async create(data){
+    const id = 'cl_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    if(dbNs){
+      try{ await dbNs.collection('checklists').doc(id).set(data); return id; }
+      catch(e){ console.warn('db create failed, falling back', e); }
+    }
+    const list = lsRead(); list.push(Object.assign({id}, data)); lsWrite(list);
+    return id;
+  },
+  async update(id, patch){
+    if(dbNs){
+      try{ await dbNs.collection('checklists').doc(id).update(patch); return; }
+      catch(e){ console.warn('db update failed, falling back', e); }
+    }
+    const list = lsRead(); const it = list.find(x=>x.id===id); if(it) Object.assign(it, patch); lsWrite(list);
+  },
+  async remove(id){
+    if(dbNs){
+      try{ await dbNs.collection('checklists').doc(id).delete(); return; }
+      catch(e){ console.warn('db delete failed, falling back', e); }
+    }
+    lsWrite(lsRead().filter(x=>x.id!==id));
+  }
+};
+
+let checklists = [];
+async function refreshChecklists(){
+  checklists = await Store.list();
+  renderGear();
+}
+function renderGear(){
+  $('#gearHint').textContent = dbReady ? '清單會同步儲存，任何裝置打開都看得到' : '清單儲存在這台裝置的瀏覽器裡';
+  if(!checklists.length){
+    $('#gearGrid').innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 8V6a5 5 0 0 1 10 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/></svg>
+      <div>還沒有檢查清單，建立第一份出發前檢查表吧</div>
+    </div>`;
+    return;
+  }
+  $('#gearGrid').innerHTML = checklists.map(c=>{
+    const total = (c.items||[]).length;
+    const done = (c.items||[]).filter(i=>i.checked).length;
+    const pct = total ? Math.round(done/total*100) : 0;
+    return `<article class="card gear-card" data-id="${esc(c.id)}">
+      <div class="gear-top">
+        <div><div class="gear-date">${esc(c.date||'')}</div><h3 class="gear-name">${esc(c.name||'未命名清單')}</h3></div>
+        <button class="icon-btn" data-del="${esc(c.id)}" type="button" aria-label="刪除">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-8 0 1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13"/></svg>
+        </button>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">${done} / ${total} 項已完成</div>
+    </article>`;
+  }).join('');
+}
+document.addEventListener('click', async (e)=>{
+  const delBtn = e.target.closest('[data-del]');
+  if(delBtn){
+    e.stopPropagation();
+    confirmDanger(`確定要刪除這份檢查清單嗎？`, async ()=>{
+      await Store.remove(delBtn.dataset.del);
+      toast('已刪除清單');
+      refreshChecklists();
+    });
+    return;
+  }
+  const gcard = e.target.closest('.gear-card');
+  if(gcard){ openGearDetail(gcard.dataset.id); }
+});
+function confirmDanger(msg, onYes){
+  openModal(`
+    <h3>請再確認一下</h3>
+    <div class="confirm-box">${esc(msg)}
+      <div class="confirm-actions">
+        <button class="btn-danger" id="confirmYes" type="button">刪除</button>
+        <button class="btn-ghost" id="confirmNo" type="button">取消</button>
+      </div>
+    </div>
+  `);
+  $('#confirmYes').addEventListener('click', ()=>{ closeModal(); onYes(); });
+  $('#confirmNo').addEventListener('click', closeModal);
+}
+
+$('#newChecklistBtn').addEventListener('click', ()=>{
+  const today = new Date().toISOString().slice(0,10);
+  openModal(`
+    <h3>新增檢查清單</h3>
+    <p class="sub-note">會先帶入常用裝備範本，建立後可以自己增刪修改</p>
+    <div class="field-row">
+      <div class="field"><label>日期</label><input type="date" id="newDate" value="${today}"></div>
+      <div class="field"><label>清單名稱</label><input type="text" id="newName" placeholder="例如：雪山主東 單攻"></div>
+    </div>
+    <div class="field-row"><button class="btn-primary" id="createBtn" type="button" style="width:100%;justify-content:center">建立清單</button></div>
+  `);
+  $('#newName').focus();
+  $('#createBtn').addEventListener('click', async ()=>{
+    const date = $('#newDate').value || today;
+    const name = $('#newName').value.trim() || '未命名清單';
+    const items = DATA.checklistTemplate.map((t,i)=>({id:'i'+i, text:t.text, category:t.category, checked:false}));
+    const id = await Store.create({date, name, createdAt: Date.now(), items});
+    closeModal(); toast('清單建立完成');
+    await refreshChecklists();
+    openGearDetail(id);
+  });
+});
+
+function openGearDetail(id){
+  const c = checklists.find(x=>x.id===id);
+  if(!c) return;
+  const cats = ['衣物包','單攻包','當天確認'];
+  const items = c.items || [];
+  const extraCats = [...new Set(items.map(i=>i.category).filter(cat=>!cats.includes(cat)))];
+  const groups = cats.concat(extraCats);
+
+  function itemRow(it){
+    return `<div class="gear-item" data-item="${esc(it.id)}">
+      <input type="checkbox" ${it.checked?'checked':''} data-check="${esc(it.id)}">
+      <span class="txt ${it.checked?'done':''}" data-text="${esc(it.id)}">${esc(it.text)}</span>
+      <button class="icon-btn" data-rm="${esc(it.id)}" type="button" aria-label="刪除項目" style="width:26px;height:26px">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>`;
+  }
+  function groupHtml(cat){
+    const rows = items.filter(i=>i.category===cat).map(itemRow).join('');
+    return `<div class="gear-group" data-group="${esc(cat)}">
+      <h4>${esc(cat)}</h4>
+      ${rows}
+      <div class="gear-add-row">
+        <input type="text" placeholder="新增項目…" data-newitem="${esc(cat)}">
+        <button type="button" data-additem="${esc(cat)}">加入</button>
+      </div>
+    </div>`;
+  }
+
+  openModal(`
+    <h3>${esc(c.name)}</h3>
+    <div class="field-row">
+      <div class="field"><label>日期</label><input type="date" id="editDate" value="${esc(c.date)}"></div>
+      <div class="field"><label>清單名稱</label><input type="text" id="editName" value="${esc(c.name)}"></div>
+    </div>
+    <div id="groupsWrap">${groups.map(groupHtml).join('')}</div>
+    <div style="margin-top:18px;display:flex;gap:8px">
+      <button class="btn-danger" id="deleteListBtn" type="button">刪除整份清單</button>
+    </div>
+  `);
+
+  async function persistItems(newItems){
+    c.items = newItems;
+    await Store.update(c.id, {items: newItems});
+    renderGear();
+  }
+
+  $('#editDate').addEventListener('change', async (e)=>{ c.date = e.target.value; await Store.update(c.id, {date:c.date}); renderGear(); });
+  $('#editName').addEventListener('change', async (e)=>{ c.name = e.target.value.trim()||'未命名清單'; await Store.update(c.id, {name:c.name}); renderGear(); $('.modal h3').textContent = c.name; });
+
+  $('#groupsWrap').addEventListener('click', async (e)=>{
+    const rm = e.target.closest('[data-rm]');
+    if(rm){ persistItems(items.filter(i=>i.id!==rm.dataset.rm)); openGearDetail(id); return; }
+    const add = e.target.closest('[data-additem]');
+    if(add){
+      const cat = add.dataset.additem;
+      const input = $(`[data-newitem="${CSS.escape(cat)}"]`);
+      const val = input.value.trim();
+      if(!val) return;
+      items.push({id:'i'+Date.now()+Math.random().toString(36).slice(2,5), text:val, category:cat, checked:false});
+      await persistItems(items.slice());
+      openGearDetail(id);
+      return;
+    }
+    const txt = e.target.closest('[data-text]');
+    if(txt){
+      const it = items.find(i=>i.id===txt.dataset.text);
+      const inp = document.createElement('input');
+      inp.className = 'txt-input'; inp.value = it.text;
+      txt.replaceWith(inp); inp.focus(); inp.select();
+      const commit = async ()=>{
+        it.text = inp.value.trim() || it.text;
+        await persistItems(items.slice());
+        openGearDetail(id);
+      };
+      inp.addEventListener('blur', commit);
+      inp.addEventListener('keydown', ev=>{ if(ev.key==='Enter') inp.blur(); });
+      return;
+    }
+  });
+  $('#groupsWrap').addEventListener('keydown', (e)=>{
+    if(e.key==='Enter' && e.target.matches('[data-newitem]')){
+      e.target.nextElementSibling.click();
+    }
+  });
+  $('#groupsWrap').addEventListener('change', async (e)=>{
+    const chk = e.target.closest('[data-check]');
+    if(chk){
+      const it = items.find(i=>i.id===chk.dataset.check);
+      it.checked = chk.checked;
+      await persistItems(items.slice());
+      const label = chk.parentElement.querySelector('.txt');
+      if(label) label.classList.toggle('done', it.checked);
+      renderGear();
+    }
+  });
+  $('#deleteListBtn').addEventListener('click', ()=>{
+    confirmDanger('確定要刪除「'+c.name+'」這份清單嗎？此動作無法復原。', async ()=>{
+      await Store.remove(c.id);
+      closeModal(); toast('已刪除清單');
+      refreshChecklists();
+    });
+  });
+}
+
+/* ---------------- tabs ---------------- */
+function setTab(name){
+  $$('.tab-btn').forEach(b=> b.setAttribute('data-active', String(b.dataset.tab===name)));
+  $$('.panel').forEach(p=> p.setAttribute('data-active', String(p.dataset.panel===name)));
+  location.hash = name;
+}
+$('#tabbar').addEventListener('click', (e)=>{
+  const b = e.target.closest('.tab-btn'); if(!b) return;
+  setTab(b.dataset.tab);
+});
+$('#peakOnlyToggle').addEventListener('click', (e)=>{
+  climbedFilter.peakOnly = !climbedFilter.peakOnly;
+  e.target.setAttribute('aria-pressed', String(climbedFilter.peakOnly));
+  renderClimbed();
+});
+
+/* ---------------- sync button ---------------- */
+function fmtSyncedAt(s){
+  if(!s) return 'Last update —';
+  const parts = s.split(/[-\/]/).map(p=> parseInt(p,10));
+  const nice = parts.length===3 ? parts.join('.') : s;
+  return 'Last update ' + nice;
+}
+$('#syncBtn').addEventListener('click', async ()=>{
+  const btn = $('#syncBtn'); btn.classList.add('spinning');
+  try{
+    await loadData(true);
+    renderAll();
+    await refreshChecklists();
+    $('#syncMeta').textContent = fmtSyncedAt(DATA.syncedAt);
+    toast('已重新整理！');
+  }catch(e){
+    toast('讀取失敗，請稍後再試');
+  }finally{
+    setTimeout(()=> btn.classList.remove('spinning'), 400);
+  }
+});
+
+/* ---------------- boot ---------------- */
+function renderAll(){
+  renderRaces(); renderClimbed(); renderYMS(); renderWishlist();
+}
+async function boot(){
+  await loadData(false);
+  renderAll();
+  $('#syncMeta').textContent = fmtSyncedAt(DATA.syncedAt);
+
+  const initialTab = (location.hash||'').replace('#','') || 'races';
+  setTab(['races','climbed','yms','wishlist','gear'].includes(initialTab) ? initialTab : 'races');
+
+  try{
+    if(window.claude && typeof window.claude.use === 'function'){
+      dbNs = await window.claude.use('db');
+      dbReady = !!dbNs;
+    }
+  }catch(e){ dbNs = null; dbReady = false; }
+  await refreshChecklists();
+}
+boot();
+
+/* ---------------- hero parallax ---------------- */
+(function(){
+  const bg = document.getElementById('heroBg');
+  const hero = document.querySelector('.hero');
+  if(!bg || !hero) return;
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const factor = 0.35;
+  let ticking = false;
+  function update(){
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    if(heroBottom > 0){
+      const y = window.scrollY || window.pageYOffset || 0;
+      bg.style.transform = 'translate3d(0,' + (y * factor) + 'px,0)';
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+  update();
+})();
+})();
+</script>
