@@ -145,23 +145,29 @@ rows = read_csv('raw-sheet-export/wantclimb.csv')
 wishlist = []
 wishlist_done = []
 section = None
+
+def est_hours(ref_hours):
+    """上河文化參考時間 × 0.7（依個人配速估算），四捨五入到半小時"""
+    hrs = round(ref_hours * 0.7 * 2) / 2
+    return ('約 %g 小時' % hrs)
+
 overlay = {
-    '大、小霸尖山': {'elevation': '大霸尖山 3,490m／小霸尖山 3,419m', 'estTime': '建議 3天2夜（大鹿林道19k可租單車代步一段）', 'region': '新竹縣 / 苗栗縣'},
+    '大、小霸尖山': {'elevation': '大霸尖山 3,490m／小霸尖山 3,419m', 'estTime': '建議 3天2夜', 'region': '新竹縣 / 苗栗縣'},
     '聖稜線小O型': {'elevation': '最高點品田山 3,528m', 'estTime': '建議 3天2夜', 'region': '台中市 / 新竹縣'},
     '聖稜線O型': {'elevation': '最高點雪山主峰 3,886m', 'estTime': '建議 4天3夜', 'region': '台中市 / 新竹縣'},
-    '郡大山': {'elevation': '3,278m', 'estTime': '單攻約 11–13 小時', 'region': '南投縣'},
-    '小關山': {'elevation': '3,248m', 'estTime': '單日約 6–8 小時', 'region': '高雄市'},
-    '海諾南山': {'elevation': '3,173m', 'estTime': '與小關山連走全程約 8–10 小時', 'region': '高雄市'},
-    '白姑大山': {'elevation': '3,341m', 'estTime': '建議 2天1夜（單攻約14–16小時）', 'region': '南投縣 / 台中市'},
-    '屏風山': {'elevation': '3,248m', 'estTime': '建議 2天1夜（單攻約10–12小時）', 'region': '花蓮縣'},
-    '畢祿山': {'elevation': '3,370m', 'estTime': '單攻約 10–12 小時', 'region': '花蓮縣 / 南投縣'},
-    '羊頭山': {'elevation': '3,033m', 'estTime': '單日約 5–6 小時', 'region': '花蓮縣 / 南投縣'},
-    '塔關山': {'elevation': '3,219m', 'estTime': '單日約 2–3 小時', 'region': '高雄市'},
-    '關山嶺山': {'elevation': '3,174m', 'estTime': '單日約 2–3 小時（可與塔關山同日）', 'region': '高雄市'},
-    '庫哈諾辛山': {'elevation': '3,114m', 'estTime': '單日約 4–5 小時', 'region': '高雄市'},
+    '郡大山': {'elevation': '3,278m', 'estTime': est_hours(12), 'region': '南投縣'},
+    '小關山': {'elevation': '3,248m', 'estTime': est_hours(7), 'region': '高雄市'},
+    '海諾南山': {'elevation': '3,173m', 'estTime': est_hours(9), 'region': '高雄市'},
+    '白姑大山': {'elevation': '3,341m', 'estTime': '建議 2天1夜', 'region': '南投縣 / 台中市'},
+    '屏風山': {'elevation': '3,248m', 'estTime': '建議 2天1夜', 'region': '花蓮縣'},
+    '畢祿山': {'elevation': '3,370m', 'estTime': est_hours(11), 'region': '花蓮縣 / 南投縣'},
+    '羊頭山': {'elevation': '3,033m', 'estTime': est_hours(5.5), 'region': '花蓮縣 / 南投縣'},
+    '塔關山': {'elevation': '3,219m', 'estTime': est_hours(5), 'region': '高雄市'},
+    '關山嶺山': {'elevation': '3,174m', 'estTime': est_hours(2.5), 'region': '高雄市'},
+    '庫哈諾辛山': {'elevation': '3,114m', 'estTime': est_hours(6), 'region': '高雄市'},
     '嘉明湖': {'elevation': '向陽山 3,601m／三叉山 3,495m／嘉明湖畔 約3,150m', 'estTime': '建議 3天2夜', 'region': '台東縣'},
-    '玉山北峰': {'elevation': '3,855m', 'estTime': '建議 2天1夜（排雲山莊過夜）', 'region': '南投縣'},
-    '喀拉業山': {'elevation': '3,133m', 'estTime': '單攻約 10–12 小時，或 2天1夜', 'region': '台中市'},
+    '玉山北峰': {'elevation': '3,855m', 'estTime': '建議 2天1夜', 'region': '南投縣'},
+    '喀拉業山': {'elevation': '3,133m', 'estTime': est_hours(11), 'region': '台中市'},
     '奇萊南華': {'elevation': '奇萊南峰 3,357m／南華山 3,182m', 'estTime': '建議 2天1夜', 'region': '花蓮縣 / 南投縣'},
 }
 # 入園申請核實結果（查了雪霸/玉山/太魯閣國家公園官網與林務局公告後校正，

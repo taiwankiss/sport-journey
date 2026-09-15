@@ -128,7 +128,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 /* ============ cards grid ============ */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .grid.list-mode{grid-template-columns:1fr;gap:10px;}
-.mtn-list-row,.wish-list-row{padding:16px;overflow:visible;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--brand);position:relative;}
+.card.mtn-list-row,.card.wish-list-row{padding:16px;overflow:visible;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--brand);position:relative;}
 @media (max-width:719px){
   .mtn-list-row,.wish-list-row{padding-right:38px;}
 }
@@ -345,7 +345,6 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
           <button class="sort-btn search-toggle" id="climbedSearchToggle" type="button" aria-label="搜尋"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
           <input type="text" class="search-input" id="climbedSearchInput" placeholder="搜尋山名…">
         </div>
-        <button class="sort-btn" id="peakOnlyToggle" aria-pressed="false" type="button">只看百岳</button>
         <button class="sort-btn" id="climbedListToggle" aria-pressed="false" type="button"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg> 列表模式</button>
         <button class="sort-btn" data-field="date" type="button">日期<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
         <button class="sort-btn" data-field="distanceKm" type="button">里程<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
@@ -719,7 +718,7 @@ document.addEventListener('click', (e)=>{
 });
 
 /* ---------------- render: climbed ---------------- */
-let climbedFilter = {peakOnly:false, q:'', listMode:false};
+let climbedFilter = {q:'', listMode:false};
 let wishlistFilter = {listMode:false};
 function codeChip(c){
   const isSmall = c.indexOf('小百岳')===0;
@@ -742,7 +741,6 @@ function renderClimbedSummary(){
 function renderClimbed(){
   renderClimbedSummary();
   let list = DATA.climbed.filter(m=>{
-    if(climbedFilter.peakOnly && !m.code.some(c=>c.indexOf('百岳')===0)) return false;
     if(climbedFilter.q && !m.name.includes(climbedFilter.q)) return false;
     return true;
   });
@@ -1197,11 +1195,6 @@ $('#tabbar').addEventListener('click', (e)=>{
     setTab(order[idx]);
   }, {passive:true});
 })();
-$('#peakOnlyToggle').addEventListener('click', (e)=>{
-  climbedFilter.peakOnly = !climbedFilter.peakOnly;
-  e.target.setAttribute('aria-pressed', String(climbedFilter.peakOnly));
-  renderClimbed();
-});
 $('#climbedListToggle').addEventListener('click', (e)=>{
   climbedFilter.listMode = !climbedFilter.listMode;
   e.currentTarget.setAttribute('aria-pressed', String(climbedFilter.listMode));
