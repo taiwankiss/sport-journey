@@ -396,15 +396,21 @@ function toast(msg){
   const t = $('#toast'); t.textContent = msg; t.setAttribute('data-show','true');
   clearTimeout(toast._h); toast._h = setTimeout(()=> t.setAttribute('data-show','false'), 2200);
 }
+const _modalEl = $('#modalBody');
+function _measureModalScrollbar(){
+  const sbw = _modalEl.offsetWidth - _modalEl.clientWidth;
+  _modalEl.style.setProperty('--sbw', sbw + 'px');
+}
+if(typeof ResizeObserver !== 'undefined'){
+  new ResizeObserver(_measureModalScrollbar).observe(_modalEl);
+}
 function openModal(html){
-  const modal = $('#modalBody');
-  modal.innerHTML = '<button class="modal-close" id="modalCloseBtn" type="button">✕</button>' + html;
+  _modalEl.innerHTML = '<button class="modal-close" id="modalCloseBtn" type="button">✕</button>' + html;
   $('#overlay').setAttribute('data-open','true');
   document.body.style.overflow = 'hidden';
-  requestAnimationFrame(()=>{
-    const sbw = modal.offsetWidth - modal.clientWidth;
-    modal.style.setProperty('--sbw', sbw + 'px');
-  });
+  _measureModalScrollbar();
+  const photo = _modalEl.querySelector('.modal-photo');
+  if(photo && !photo.complete) photo.addEventListener('load', _measureModalScrollbar, {once:true});
 }
 function closeModal(){
   $('#overlay').setAttribute('data-open','false');
