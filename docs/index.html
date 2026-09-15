@@ -153,7 +153,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .badge.event{background:var(--brand-bg);color:var(--brand-ink);}
 .badge.upcoming-badge{background:var(--accent-bg);color:var(--accent-ink);}
 .races-list{display:flex;flex-direction:column;gap:10px;}
-.race-row{cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--line);}
+.race-row{cursor:pointer;position:relative;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--line);}
 .race-row.upcoming{border-left-style:dashed;background:var(--bg-soft);}
 .race-row-rank{flex:none;width:30px;display:flex;align-items:center;justify-content:center;}
 .race-rank-badge{font-family:"Poppins",sans-serif;font-size:11px;font-weight:700;width:23px;height:23px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;white-space:nowrap;}
@@ -172,6 +172,8 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .stat-box{background:var(--surface-2);border-radius:12px;padding:8px 10px;}
 .stat-box b{display:block;font-family:"Poppins",sans-serif;font-size:15px;}
 .stat-box span{font-size:10.5px;color:var(--ink-faint);font-weight:500;}
+.stat-box-group{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.group-tag{font-size:10.5px;font-weight:600;color:var(--ink-soft);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap;flex:none;}
 .race-note{font-size:12px;color:var(--ink-soft);font-style:italic;}
 
 /* mountain card */
@@ -299,7 +301,8 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
   .race-rank-badge{width:14px;height:14px;font-size:7.5px;}
   .race-row-date{order:1;}
   .race-row .badge.event{order:3;}
-  .race-row-chevron{order:4;margin-left:6px;}
+  .race-row-chevron{position:absolute;top:16px;right:16px;margin-left:0;}
+  .race-row{padding-right:38px;}
   .race-row-mainline{display:flex;order:5;flex-basis:100%;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;}
   .race-row-mainline .race-row-name{font-size:14px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .race-row-mainline .race-row-stats{flex:none;grid-template-columns:52px 48px minmax(0,1fr);gap:8px;}
@@ -394,6 +397,15 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
     <div class="section-head">
       <div><h2><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 4.6a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" fill="currentColor" stroke="none"/><path d="M13 7.3 9.5 13.8M9.5 13.8 14 16.3 12.4 21M9.5 13.8 6.3 17.4 3.3 16.8M13 8 9.8 7 7.8 4.2M13 8 15.8 10.8 17.3 14.2"/></svg> 路跑賽事</h2><p>每一場比賽的成績與心得</p></div>
       <div class="pb-badge"><span>半馬 PB</span><b id="racesPBValue">—</b></div>
+    </div>
+    <div class="climbed-summary" id="racesSummary">
+      <div class="summary-stat"><b id="raceSumDistance">–</b><span>總里程 km</span></div>
+      <div class="summary-stat"><b id="raceSumTime">–</b><span>累積時間</span></div>
+      <div class="summary-stat"><b id="raceSumCount">–</b><span>完成賽事</span></div>
+      <div class="summary-peak">
+        <div class="summary-peak-head"><span>馬拉松進度</span><b id="raceProgressLabel">0/100</b></div>
+        <div class="progress-track"><div class="progress-fill" id="raceProgressFill"></div></div>
+      </div>
     </div>
     <div id="racesGrid" class="races-list"></div>
   </section>
@@ -559,11 +571,12 @@ async function loadData(bust){
 }
 
 /* ---------------- render: races ---------------- */
-const YEAR_COLORS = ['#A8CC3D','#6BC24A','#2FA86B','#1B9E8C','#1F8850','#0F6B4C'];
-function yearOf(dateStr){ return parseInt((dateStr||'').split('/')[0], 10); }
-function yearColor(dateStr){
-  const y = yearOf(dateStr);
-  return isNaN(y) ? 'var(--line)' : YEAR_COLORS[((y%YEAR_COLORS.length)+YEAR_COLORS.length)%YEAR_COLORS.length];
+const RACE_GRADIENT_TOP = [240,134,43];    /* accent orange */
+const RACE_GRADIENT_BOTTOM = [47,158,104]; /* brand green */
+function raceRowColor(i, total){
+  const t = total>1 ? i/(total-1) : 0;
+  const c = RACE_GRADIENT_TOP.map((v,idx)=> Math.round(v + (RACE_GRADIENT_BOTTOM[idx]-v)*t));
+  return '#' + c.map(v=>v.toString(16).padStart(2,'0')).join('');
 }
 function paceSeconds(pace){
   const m = /^(\d+):(\d+)$/.exec((pace||'').trim());
@@ -576,10 +589,27 @@ function timeSeconds(t){
   if(parts.length===2) return parts[0]*60+parts[1];
   return NaN;
 }
+function raceDistanceKm(event){
+  if(event==='半馬') return 21.1;
+  if(event==='全馬') return 42.2;
+  return 0;
+}
+function secondsToHMS(total){
+  const h = Math.floor(total/3600), m = Math.floor((total%3600)/60), s = Math.floor(total%60);
+  return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
 function renderRaces(){
   const done = DATA.races.filter(r=>!r.upcoming);
   const bestHalf = done.filter(r=>r.event==='半馬' && r.personalTime).sort((a,b)=> a.personalTime.localeCompare(b.personalTime))[0];
   $('#racesPBValue').textContent = bestHalf ? bestHalf.personalTime : '—';
+
+  const totalDist = done.reduce((s,r)=> s + raceDistanceKm(r.event), 0);
+  const totalSecs = done.reduce((s,r)=> { const sec = timeSeconds(r.personalTime); return s + (isNaN(sec)?0:sec); }, 0);
+  $('#raceSumDistance').textContent = Math.round(totalDist).toLocaleString();
+  $('#raceSumTime').textContent = secondsToHMS(totalSecs);
+  $('#raceSumCount').textContent = done.length;
+  $('#raceProgressLabel').textContent = done.length + '/100';
+  $('#raceProgressFill').style.width = Math.min(100, done.length) + '%';
 
   const ranked = [...done].filter(r=>!isNaN(timeSeconds(r.personalTime))).sort((a,b)=> timeSeconds(a.personalTime)-timeSeconds(b.personalTime));
   const rankOf = new Map(ranked.slice(0,3).map((r,i)=>[r,i+1]));
@@ -590,7 +620,7 @@ function renderRaces(){
     const rankHtml = rk ? `<span class="race-rank-badge ${medal[rk][1]}">${medal[rk][0]}</span>` : '';
     const idx = DATA.races.indexOf(r);
     if(r.upcoming){
-      return `<article class="card race-row upcoming" data-idx="${idx}" style="border-left-color:${yearColor(r.date)};--i:${i}">
+      return `<article class="card race-row upcoming" data-idx="${idx}" style="border-left-color:${raceRowColor(i, DATA.races.length)};--i:${i}">
         <div class="race-row-rank"></div>
         <span class="race-row-date mono">${esc(r.date)}</span>
         <span class="badge event">${esc(r.event)}</span>
@@ -598,10 +628,10 @@ function renderRaces(){
         <span class="badge upcoming-badge">即將到來</span>
       </article>`;
     }
-    return `<article class="card race-row" data-idx="${idx}" style="border-left-color:${yearColor(r.date)};--i:${i}">
+    return `<article class="card race-row" data-idx="${idx}" style="border-left-color:${raceRowColor(i, DATA.races.length)};--i:${i}">
       <div class="race-row-rank">${rankHtml}</div>
       <span class="race-row-date mono">${esc(r.date)}</span>
-      <span class="badge event">${esc(r.event)}${r.group?(' · '+esc(r.group)):''}</span>
+      <span class="badge event">${esc(r.event)}</span>
       <svg class="race-row-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       <div class="race-row-mainline">
         <div class="race-row-name">${esc(r.name)}</div>
@@ -634,7 +664,7 @@ function openRaceDetail(r){
       <div class="stat-box"><b>${esc(r.personalTime||'—')}</b><span>個人時間</span></div>
       <div class="stat-box"><b>${esc(r.pace||'—')}</b><span>平均配速 /km</span></div>
       <div class="stat-box"><b>${esc(r.rankTotal||'—')}</b><span>總排名 ${esc(r.rankPct||'')}</span></div>
-      <div class="stat-box"><b>${esc(r.groupRank||'—')}</b><span>分組排名 ${esc(r.groupPct||'')}</span></div>
+      <div class="stat-box stat-box-group"><div><b>${esc(r.groupRank||'—')}</b><span>分組排名 ${esc(r.groupPct||'')}</span></div>${r.group?`<span class="group-tag">${esc(r.group)}</span>`:''}</div>
     </div>
     <div class="detail-row"><span>大會時間</span><span>${esc(r.officialTime||'—')}</span></div>
     <div class="detail-row"><span>${ICONS.shoe}　鞋款</span><span>${esc(r.shoes||'—')}</span></div>
@@ -911,9 +941,14 @@ function renderGear(){
     return `<article class="card gear-card" data-id="${esc(c.id)}" style="--i:${i}">
       <div class="gear-top">
         <div><div class="gear-date">${esc(c.date||'')}</div><h3 class="gear-name">${esc(c.name||'未命名清單')}</h3></div>
-        <button class="icon-btn" data-del="${esc(c.id)}" type="button" aria-label="刪除">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-8 0 1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13"/></svg>
-        </button>
+        <div style="display:flex;gap:6px;flex:none;">
+          <button class="icon-btn" data-dupcard="${esc(c.id)}" type="button" aria-label="複製清單">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M16 8V5.5A2.5 2.5 0 0 0 13.5 3h-8A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16H8"/></svg>
+          </button>
+          <button class="icon-btn" data-del="${esc(c.id)}" type="button" aria-label="刪除">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-8 0 1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13"/></svg>
+          </button>
+        </div>
       </div>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
       <div class="progress-label">${done} / ${total} 項已完成</div>
@@ -921,6 +956,18 @@ function renderGear(){
   }).join('');
 }
 document.addEventListener('click', async (e)=>{
+  const dupCard = e.target.closest('[data-dupcard]');
+  if(dupCard){
+    e.stopPropagation();
+    const src = checklists.find(c=>c.id===dupCard.dataset.dupcard);
+    if(src){
+      const items = (src.items||[]).map(it=>({...it}));
+      await Store.create({date: src.date, name: src.name, createdAt: Date.now(), items});
+      toast('已複製清單');
+      await refreshChecklists();
+    }
+    return;
+  }
   const delBtn = e.target.closest('[data-del]');
   if(delBtn){
     e.stopPropagation();
