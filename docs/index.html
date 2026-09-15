@@ -166,7 +166,8 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .race-row-stats span{display:flex;flex-direction:column;gap:1px;min-width:0;}
 .race-row-stats b{font-family:"Poppins",sans-serif;font-size:14px;font-weight:600;color:var(--ink);text-align:left;white-space:nowrap;}
 .race-row-stats i{font-style:normal;font-size:10px;color:var(--ink-faint);font-weight:600;text-align:left;white-space:nowrap;}
-.race-row-chevron{flex:none;color:var(--ink-faint);margin-left:auto;}
+.race-row-chevron{flex:none;color:var(--ink-faint);margin-left:auto;order:9;}
+.race-row-mainline{display:contents;}
 .race-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;}
 .stat-box{background:var(--surface-2);border-radius:12px;padding:8px 10px;}
 .stat-box b{display:block;font-family:"Poppins",sans-serif;font-size:15px;}
@@ -294,7 +295,16 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
   .tab-btn .lbl-full{display:none;}
   .tab-btn .lbl-short{display:inline;}
   .tab-btn[data-active="true"]{box-shadow:none;}
-  .race-row-stats{flex-basis:100%;}
+  .race-row-rank{order:2;width:auto;}
+  .race-rank-badge{width:14px;height:14px;font-size:7.5px;}
+  .race-row-date{order:1;}
+  .race-row .badge.event{order:3;}
+  .race-row-chevron{order:4;margin-left:6px;}
+  .race-row-mainline{display:flex;order:5;flex-basis:100%;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;}
+  .race-row-mainline .race-row-name{font-size:14px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .race-row-mainline .race-row-stats{flex:none;grid-template-columns:52px 48px minmax(0,1fr);gap:8px;}
+  .race-row-mainline .race-row-stats b{font-size:12px;}
+  .race-row-mainline .race-row-stats i{font-size:9px;}
   .climbed-search .search-input{font-size:16px;}
 }
 @media (min-width:720px){
@@ -592,13 +602,15 @@ function renderRaces(){
       <div class="race-row-rank">${rankHtml}</div>
       <span class="race-row-date mono">${esc(r.date)}</span>
       <span class="badge event">${esc(r.event)}${r.group?(' · '+esc(r.group)):''}</span>
-      <div class="race-row-name">${esc(r.name)}</div>
-      <div class="race-row-stats">
-        <span><b>${esc(r.personalTime||'—')}</b><i>個人時間</i></span>
-        <span><b>${esc(r.pace||'—')}</b><i>配速 /km</i></span>
-        <span><b>${esc(r.rankTotal||'—')}</b><i>總排名</i></span>
-      </div>
       <svg class="race-row-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      <div class="race-row-mainline">
+        <div class="race-row-name">${esc(r.name)}</div>
+        <div class="race-row-stats">
+          <span><b>${esc(r.personalTime||'—')}</b><i>個人時間</i></span>
+          <span><b>${esc(r.pace||'—')}</b><i>配速 /km</i></span>
+          <span><b>${esc(r.rankTotal||'—')}</b><i>總排名</i></span>
+        </div>
+      </div>
     </article>`;
   }).join('');
 }
