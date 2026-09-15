@@ -138,7 +138,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 /* ============ cards grid ============ */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .grid.list-mode{grid-template-columns:1fr;gap:10px;}
-.card.mtn-list-row,.card.wish-list-row{padding:16px;overflow:visible;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--brand);position:relative;}
+.card.mtn-list-row,.card.wish-list-row{padding:16px;overflow:visible;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--line);position:relative;}
 @media (max-width:719px){
   .mtn-list-row,.wish-list-row{padding-right:38px;}
 }
@@ -762,7 +762,7 @@ function renderClimbed(){
   $('#climbedGrid').innerHTML = list.length ? list.map((m,i)=>{
     const idx = DATA.climbed.indexOf(m);
     if(climbedFilter.listMode){
-      return `<article class="card mtn-card mtn-list-row" data-idx="${idx}" style="--i:${i}">
+      return `<article class="card mtn-card mtn-list-row" data-idx="${idx}" style="border-left-color:${raceRowColor(i, list.length)};--i:${i}">
         <span class="race-row-date mono">${esc(m.date)}</span>
         <svg class="race-row-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
         <div class="race-row-mainline">
@@ -867,7 +867,7 @@ function renderWishlist(){
   $('#wishlistGrid').innerHTML = list.map((w,vi)=>{
     const i = DATA.wishlist.indexOf(w);
     if(wishlistFilter.listMode){
-      return `<article class="card wish-card wish-list-row" data-idx="${i}" style="--i:${vi}">
+      return `<article class="card wish-card wish-list-row" data-idx="${i}" style="border-left-color:${raceRowColor(vi, list.length)};--i:${vi}">
         <span class="race-row-date">${esc(w.region||'台灣')}</span>
         <svg class="race-row-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
         <div class="race-row-mainline">
