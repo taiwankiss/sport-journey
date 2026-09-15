@@ -1,0 +1,39 @@
+{
+ "2024/4/28": {
+  "photo": "images/races/2024428_photo.jpg",
+  "cert": "images/races/2024428_cert.jpg"
+ },
+ "2024/10/27": {
+  "photo": "images/races/20241027_photo.jpg",
+  "cert": "images/races/20241027_cert.jpg"
+ },
+ "2025/3/9": {
+  "photo": "images/races/202539_photo.jpg",
+  "cert": "images/races/202539_cert.jpg"
+ },
+ "2025/4/27": {
+  "cert": "images/races/2025427_cert.jpg"
+ },
+ "2025/5/10": {
+  "cert": "images/races/2025510_cert.jpg"
+ },
+ "2025/10/18": {
+  "cert": "images/races/20251018_cert.jpg"
+ },
+ "2025/12/20": {
+  "photo": "images/races/20251220_photo.jpg",
+  "cert": "images/races/20251220_cert.jpg"
+ },
+ "2026/03/08": {
+  "photo": "images/races/20260308_photo.jpg",
+  "cert": "images/races/20260308_cert.jpg"
+ },
+ "2026/04/18": {
+  "photo": "images/races/20260418_photo.jpg",
+  "cert": "images/races/20260418_cert.jpg"
+ },
+ "2026/04/26": {
+  "photo": "images/races/20260426_photo.jpg",
+  "cert": "images/races/20260426_cert.jpg"
+ }
+}

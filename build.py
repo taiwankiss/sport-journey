@@ -13,6 +13,8 @@ PHOTO_ASSETS = _PA['mountains']
 PHOTO_ASSETS_THUMB = _PA.get('mountains_thumb', {})
 LOCAL_PHOTOS = json.load(open('docs/photo_map.local.json', encoding='utf-8')) if TARGET == 'pages' else {}
 LOCAL_PHOTOS_THUMB = json.load(open('docs/photo_thumb_map.local.json', encoding='utf-8')) if TARGET == 'pages' else {}
+RACE_MEDIA = json.load(open('race_media.json', encoding='utf-8'))
+RACE_MEDIA_LOCAL = json.load(open('docs/race_media.local.json', encoding='utf-8')) if TARGET == 'pages' else {}
 
 def photo_url(name):
     if TARGET == 'pages':
@@ -25,6 +27,15 @@ def photo_thumb_url(name):
         return LOCAL_PHOTOS_THUMB.get(name) or LOCAL_PHOTOS.get(name)
     aid = PHOTO_ASSETS_THUMB.get(name)
     return ('/_blob/' + aid) if aid else photo_url(name)
+
+def race_media_urls(date):
+    if TARGET == 'pages':
+        entry = RACE_MEDIA_LOCAL.get(date, {})
+        return entry.get('photo'), entry.get('cert')
+    entry = RACE_MEDIA.get(date, {})
+    photo = ('/_blob/' + entry['photo']) if entry.get('photo') else None
+    cert = ('/_blob/' + entry['cert']) if entry.get('cert') else None
+    return photo, cert
 
 def read_csv(path):
     with open(path, encoding='utf-8') as f:
@@ -67,6 +78,7 @@ for r in rows:
     if not in_wei:
         continue
     order, date, name, event, group, rank_total, rank_pct, group_rank, gender_rank, group_pct, official_time, personal_time, pace, shoes, note = (r + ['']*15)[:15]
+    race_photo, race_cert = race_media_urls(clean(date))
     races.append({
         'order': num(order),
         'date': clean(date),
@@ -83,6 +95,8 @@ for r in rows:
         'shoes': clean(shoes),
         'note': clean(note),
         'upcoming': not clean(rank_total) and not clean(personal_time),
+        'photoUrl': race_photo,
+        'certUrl': race_cert,
     })
 races.sort(key=lambda x: x['order'] or 0, reverse=True)
 
