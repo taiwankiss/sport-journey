@@ -50,6 +50,11 @@
   color-scheme: dark;
 }
 *{box-sizing:border-box;}
+*{scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent;}
+*::-webkit-scrollbar{width:6px;height:6px;}
+*::-webkit-scrollbar-track{background:transparent;}
+*::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:999px;}
+*::-webkit-scrollbar-thumb:hover{background:var(--ink-faint);}
 body{background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","M PLUS Rounded 1c",sans-serif;line-height:1.55;padding-bottom:92px;}
 h1,h2,h3,.disp{font-family:"M PLUS Rounded 1c","Noto Sans TC",sans-serif;text-wrap:balance;}
 .mono{font-family:"Poppins",sans-serif;font-variant-numeric:tabular-nums;}
@@ -101,12 +106,22 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .panel{display:none;animation:fadein .35s ease;}
 .panel[data-active="true"]{display:block;}
 @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+@keyframes itemIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.mtn-card,.wish-card,.race-row,.yms-row,.gear-card{animation:itemIn .45s cubic-bezier(.22,.9,.3,1) backwards;animation-delay:calc(min(var(--i,0),14) * 28ms);}
+@media (prefers-reduced-motion: reduce){
+  .mtn-card,.wish-card,.race-row,.yms-row,.gear-card{animation:none;}
+}
 
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
 .section-head h2{font-size:19px;margin:0;font-weight:700;display:flex;align-items:center;gap:7px;}
 .section-head p{margin:2px 0 0;color:var(--ink-soft);font-size:13px;}
 .sort-controls{display:flex;gap:6px;flex-wrap:wrap;}
 .sort-btn{display:flex;align-items:center;gap:4px;padding:6px 11px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);font-weight:600;font-size:12px;white-space:nowrap;}
+.climbed-search{display:flex;align-items:center;}
+.climbed-search .search-toggle{padding:6px;width:31px;height:31px;justify-content:center;flex:none;}
+.climbed-search .search-toggle .ico{width:15px;height:15px;}
+.climbed-search .search-input{width:0;opacity:0;padding:0;margin-left:0;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-size:13px;font-family:inherit;transition:width .25s ease, opacity .2s ease, margin-left .25s ease, padding .25s ease;}
+.climbed-search.is-open .search-input{width:150px;opacity:1;margin-left:6px;padding:6px 14px;}
 .sort-btn[data-active="true"],.sort-btn[aria-pressed="true"]{background:var(--brand-bg);border-color:var(--brand);color:var(--brand-ink);}
 .sort-btn .tri{width:9px;height:9px;flex:none;transition:transform .2s ease;}
 .sort-btn[data-dir="desc"] .tri{transform:rotate(180deg);}
@@ -126,10 +141,10 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .race-row{cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;flex-wrap:wrap;border-left:2px solid var(--line);}
 .race-row.upcoming{border-left-style:dashed;background:var(--bg-soft);}
 .race-row-rank{flex:none;width:30px;display:flex;align-items:center;justify-content:center;}
-.race-rank-badge{font-family:"Poppins",sans-serif;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:999px;white-space:nowrap;}
-.race-rank-badge.r1{background:#F5D36A;color:#5C3D00;}
-.race-rank-badge.r2{background:#D9DEE3;color:#3A4249;}
-.race-rank-badge.r3{background:#E7B48C;color:#5C3111;}
+.race-rank-badge{font-family:"Poppins",sans-serif;font-size:11px;font-weight:700;width:23px;height:23px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;white-space:nowrap;}
+.race-rank-badge.r1{background:#F5D36A;color:#5C3D00;box-shadow:0 0 0 1px rgba(245,211,106,.5),0 0 10px 2px rgba(245,211,106,.65);}
+.race-rank-badge.r2{background:#D9DEE3;color:#3A4249;box-shadow:0 0 0 1px rgba(217,222,227,.5),0 0 10px 2px rgba(217,222,227,.55);}
+.race-rank-badge.r3{background:#E7B48C;color:#5C3111;box-shadow:0 0 0 1px rgba(231,180,140,.5),0 0 10px 2px rgba(231,180,140,.6);}
 .race-row-date{font-size:12px;color:var(--ink-faint);font-weight:700;white-space:nowrap;}
 .race-row-name{font-size:15px;font-weight:700;flex:1;min-width:150px;}
 .race-row-stats{display:grid;grid-template-columns:64px 60px 1fr;gap:12px;}
@@ -148,7 +163,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .mtn-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
 .mtn-art{width:100%;aspect-ratio:16/10;display:block;background:var(--surface-2);overflow:hidden;}
 .mtn-art img,.mtn-art svg{width:100%;height:100%;object-fit:cover;display:block;}
-.modal-photo{width:calc(100% + 40px);margin:-22px -20px 14px;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:24px 24px 0 0;}
+.modal-photo{width:calc(100% + 40px + var(--sbw,0px));margin:-22px calc(-20px - var(--sbw,0px)) 14px -20px;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:24px 24px 0 0;}
 .weather-link{display:inline-flex;align-items:center;gap:6px;background:var(--accent-bg);color:var(--accent-ink);font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:999px;text-decoration:none;}
 .permit-link{display:inline-flex;align-items:center;gap:6px;background:var(--purple-bg);color:var(--purple-ink);font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:999px;text-decoration:none;}
 .weather-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
@@ -291,6 +306,10 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
     <div class="section-head">
       <div><h2><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z"/><circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"/></svg> 爬過的山</h2><p>點一張卡片看完整行程紀錄</p></div>
       <div class="sort-controls" id="climbedSortControls" data-tab="climbed">
+        <div class="climbed-search" id="climbedSearch">
+          <button class="sort-btn search-toggle" id="climbedSearchToggle" type="button" aria-label="搜尋"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+          <input type="text" class="search-input" id="climbedSearchInput" placeholder="搜尋山名…">
+        </div>
         <button class="sort-btn" id="peakOnlyToggle" aria-pressed="false" type="button">只看百岳</button>
         <button class="sort-btn" data-field="date" type="button">日期<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
         <button class="sort-btn" data-field="distanceKm" type="button">里程<svg class="tri" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l5 7H1z"/></svg></button>
@@ -378,9 +397,14 @@ function toast(msg){
   clearTimeout(toast._h); toast._h = setTimeout(()=> t.setAttribute('data-show','false'), 2200);
 }
 function openModal(html){
-  $('#modalBody').innerHTML = '<button class="modal-close" id="modalCloseBtn" type="button">✕</button>' + html;
+  const modal = $('#modalBody');
+  modal.innerHTML = '<button class="modal-close" id="modalCloseBtn" type="button">✕</button>' + html;
   $('#overlay').setAttribute('data-open','true');
   document.body.style.overflow = 'hidden';
+  requestAnimationFrame(()=>{
+    const sbw = modal.offsetWidth - modal.clientWidth;
+    modal.style.setProperty('--sbw', sbw + 'px');
+  });
 }
 function closeModal(){
   $('#overlay').setAttribute('data-open','false');
@@ -491,12 +515,12 @@ function renderRaces(){
   const rankOf = new Map(ranked.slice(0,3).map((r,i)=>[r,i+1]));
   const medal = {1:['1','r1'],2:['2','r2'],3:['3','r3']};
 
-  $('#racesGrid').innerHTML = DATA.races.map(r=>{
+  $('#racesGrid').innerHTML = DATA.races.map((r,i)=>{
     const rk = rankOf.get(r);
     const rankHtml = rk ? `<span class="race-rank-badge ${medal[rk][1]}">${medal[rk][0]}</span>` : '';
     const idx = DATA.races.indexOf(r);
     if(r.upcoming){
-      return `<article class="card race-row upcoming" data-idx="${idx}" style="border-left-color:${yearColor(r.date)}">
+      return `<article class="card race-row upcoming" data-idx="${idx}" style="border-left-color:${yearColor(r.date)};--i:${i}">
         <div class="race-row-rank"></div>
         <span class="race-row-date mono">${esc(r.date)}</span>
         <span class="badge event">${esc(r.event)}</span>
@@ -504,7 +528,7 @@ function renderRaces(){
         <span class="badge upcoming-badge">即將到來</span>
       </article>`;
     }
-    return `<article class="card race-row" data-idx="${idx}" style="border-left-color:${yearColor(r.date)}">
+    return `<article class="card race-row" data-idx="${idx}" style="border-left-color:${yearColor(r.date)};--i:${i}">
       <div class="race-row-rank">${rankHtml}</div>
       <span class="race-row-date mono">${esc(r.date)}</span>
       <span class="badge event">${esc(r.event)}${r.group?(' · '+esc(r.group)):''}</span>
@@ -591,7 +615,7 @@ document.addEventListener('click', (e)=>{
 });
 
 /* ---------------- render: climbed ---------------- */
-let climbedFilter = {peakOnly:false};
+let climbedFilter = {peakOnly:false, q:''};
 function codeChip(c){
   const isSmall = c.indexOf('小百岳')===0;
   return `<span class="chip ${isSmall?'small-peak':'peak'}">${esc(c)}</span>`;
@@ -599,14 +623,15 @@ function codeChip(c){
 function renderClimbed(){
   let list = DATA.climbed.filter(m=>{
     if(climbedFilter.peakOnly && !m.code.some(c=>c.indexOf('百岳')===0)) return false;
+    if(climbedFilter.q && !m.name.includes(climbedFilter.q)) return false;
     return true;
   });
   list = applySort(list, climbedSort, (m,f)=> f==='date' ? m.date : m[f]);
   updateSortButtons('climbedSortControls', climbedSort);
-  $('#climbedGrid').innerHTML = list.length ? list.map((m)=>{
+  $('#climbedGrid').innerHTML = list.length ? list.map((m,i)=>{
     const idx = DATA.climbed.indexOf(m);
     const chips = m.code.map(codeChip);
-    return `<article class="card mtn-card" data-idx="${idx}">
+    return `<article class="card mtn-card" data-idx="${idx}" style="--i:${i}">
       <div class="mtn-art">${mtnArt(m, idx, true, m.code.length>0)}</div>
       <div class="mtn-body">
         <h3 class="mtn-name">${esc(m.name)}</h3>
@@ -659,7 +684,7 @@ function renderYMS(){
       return `<span class="dot hit" style="background-image:linear-gradient(90deg, var(--accent), var(--brand));background-size:${rowW}px 100%;background-position:${pos}px 0;"></span>`;
     }).join('');
     const lastHit = [...y.checkpoints].reverse().find(c=>c.time);
-    return `<article class="card yms-row" data-idx="${i}">
+    return `<article class="card yms-row" data-idx="${i}" style="--i:${i}">
       <div class="yms-row-main">
         <span class="yms-date mono">${esc(y.date)}</span>
         ${y.dnf ? `<span class="yms-dnf">DNF</span>` : `<span class="yms-time">${esc(y.totalTime)}</span>`}
@@ -693,10 +718,10 @@ function openYmsDetail(y){
 function renderWishlist(){
   let list = applySort(DATA.wishlist, wishlistSort, (w,f)=> parseNum(w[f]));
   updateSortButtons('wishlistSortControls', wishlistSort);
-  $('#wishlistGrid').innerHTML = list.map((w)=>{
+  $('#wishlistGrid').innerHTML = list.map((w,vi)=>{
     const i = DATA.wishlist.indexOf(w);
     return `
-    <article class="card wish-card" data-idx="${i}">
+    <article class="card wish-card" data-idx="${i}" style="--i:${vi}">
       <div class="mtn-art">${mtnArt(w, i+11, false, true)}</div>
       <div class="mtn-body">
         <h3 class="wish-name">${esc(w.name)}</h3>
@@ -792,11 +817,11 @@ function renderGear(){
     </div>`;
     return;
   }
-  $('#gearGrid').innerHTML = checklists.map(c=>{
+  $('#gearGrid').innerHTML = checklists.map((c,i)=>{
     const total = (c.items||[]).length;
     const done = (c.items||[]).filter(i=>i.checked).length;
     const pct = total ? Math.round(done/total*100) : 0;
-    return `<article class="card gear-card" data-id="${esc(c.id)}">
+    return `<article class="card gear-card" data-id="${esc(c.id)}" style="--i:${i}">
       <div class="gear-top">
         <div><div class="gear-date">${esc(c.date||'')}</div><h3 class="gear-name">${esc(c.name||'未命名清單')}</h3></div>
         <button class="icon-btn" data-del="${esc(c.id)}" type="button" aria-label="刪除">
@@ -856,6 +881,9 @@ function openGearDetail(id){
     return `<div class="gear-item" data-item="${esc(it.id)}">
       <input type="checkbox" ${it.checked?'checked':''} data-check="${esc(it.id)}">
       <span class="txt ${it.checked?'done':''}" data-text="${esc(it.id)}">${esc(it.text)}</span>
+      <button class="icon-btn" data-dup="${esc(it.id)}" type="button" aria-label="複製項目" style="width:26px;height:26px">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M16 8V5.5A2.5 2.5 0 0 0 13.5 3h-8A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16H8"/></svg>
+      </button>
       <button class="icon-btn" data-rm="${esc(it.id)}" type="button" aria-label="刪除項目" style="width:26px;height:26px">
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -895,6 +923,19 @@ function openGearDetail(id){
   $('#editName').addEventListener('change', async (e)=>{ c.name = e.target.value.trim()||'未命名清單'; await Store.update(c.id, {name:c.name}); renderGear(); $('.modal h3').textContent = c.name; });
 
   $('#groupsWrap').addEventListener('click', async (e)=>{
+    const dup = e.target.closest('[data-dup]');
+    if(dup){
+      const src = items.find(i=>i.id===dup.dataset.dup);
+      if(src){
+        const copy = {...src, id:'i'+Date.now()+Math.random().toString(36).slice(2,6)};
+        const pos = items.indexOf(src);
+        const next = items.slice();
+        next.splice(pos+1, 0, copy);
+        await persistItems(next);
+        openGearDetail(id);
+      }
+      return;
+    }
     const rm = e.target.closest('[data-rm]');
     if(rm){ persistItems(items.filter(i=>i.id!==rm.dataset.rm)); openGearDetail(id); return; }
     const add = e.target.closest('[data-additem]');
@@ -963,6 +1004,19 @@ $('#peakOnlyToggle').addEventListener('click', (e)=>{
   climbedFilter.peakOnly = !climbedFilter.peakOnly;
   e.target.setAttribute('aria-pressed', String(climbedFilter.peakOnly));
   renderClimbed();
+});
+$('#climbedSearchToggle').addEventListener('click', ()=>{
+  const wrap = $('#climbedSearch');
+  const opening = !wrap.classList.contains('is-open');
+  wrap.classList.toggle('is-open', opening);
+  if(opening) $('#climbedSearchInput').focus();
+});
+$('#climbedSearchInput').addEventListener('input', (e)=>{
+  climbedFilter.q = e.target.value.trim();
+  renderClimbed();
+});
+$('#climbedSearchInput').addEventListener('blur', (e)=>{
+  if(!e.target.value.trim()) $('#climbedSearch').classList.remove('is-open');
 });
 
 /* ---------------- sync button ---------------- */
