@@ -564,7 +564,7 @@
    "speedKmh": null,
    "shangHe": null,
    "route": "東埔登山口、排雲山莊、玉山主峰",
-   "photoUrl": "images/mountains/玉山主峰_兩天一夜.png",
+   "photoUrl": "images/mountains/玉山主峰_兩天一夜.jpg",
    "cwaLinks": [
     {
      "name": "玉山",
@@ -735,7 +735,7 @@
    "speedKmh": 2.4,
    "shangHe": null,
    "route": "貓囒山",
-   "photoUrl": "images/mountains/貓囒山.jpeg",
+   "photoUrl": "images/mountains/貓囒山.jpg",
    "cwaLinks": []
   },
   {
@@ -769,7 +769,7 @@
    "speedKmh": 2.0,
    "shangHe": null,
    "route": "馬崙山",
-   "photoUrl": "images/mountains/馬崙山.jpeg",
+   "photoUrl": "images/mountains/馬崙山.jpg",
    "cwaLinks": []
   },
   {
@@ -1234,7 +1234,7 @@
    "speedKmh": 1.2,
    "shangHe": null,
    "route": "塔曼山",
-   "photoUrl": "images/mountains/塔曼山.avif",
+   "photoUrl": "images/mountains/塔曼山.jpg",
    "cwaLinks": [
     {
      "name": "塔曼山",
@@ -1590,7 +1590,7 @@
    "elevation": "3,248m",
    "estTime": "建議 2天1夜（單攻約10–12小時）",
    "region": "花蓮縣",
-   "photoUrl": "images/mountains/屏風山.webp",
+   "photoUrl": "images/mountains/屏風山.jpg",
    "cwaLinks": [
     {
      "name": "屏風山",
