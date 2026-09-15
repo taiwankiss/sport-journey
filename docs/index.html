@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>山徑運動誌</title>
+<title>Wei's Sport Journey</title>
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#14100E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Poppins:ital,wght@0,200;1,700&display=swap">
 <style>
@@ -86,7 +91,8 @@ button{font:inherit;cursor:pointer;}
 .tabbar{display:flex;gap:16px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:transparent;z-index:20;margin-top:-68px;transition:background .25s ease;}
 .tabbar.is-pinned{background:var(--bg);}
 .tabbar::-webkit-scrollbar{display:none;}
-.tab-btn{flex:none;display:flex;align-items:center;gap:6px;padding:9px 22.5px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);font-weight:600;font-size:13.5px;transition:.15s;}
+.tab-btn{flex:none;display:flex;align-items:center;gap:6px;padding:9px 22.5px;border-radius:999px;border:1px solid color-mix(in srgb, var(--line) 55%, transparent);background:color-mix(in srgb, var(--surface) 46%, transparent);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);color:var(--ink-soft);font-weight:600;font-size:13.5px;transition:.15s;box-shadow:0 2px 10px rgba(0,0,0,.12), inset 0 1px 0 color-mix(in srgb, var(--surface) 60%, transparent);}
+.tab-btn .lbl-short{display:none;}
 .tab-btn svg{width:16px;height:16px;}
 .tab-btn[data-active="true"]{color:var(--on-brand);border-color:transparent;background:var(--brand);box-shadow:var(--shadow-sm);}
 
@@ -245,8 +251,10 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 /* ============ bottom / desktop nav swap ============ */
 @media (max-width:719px){
   .tabbar{position:fixed;bottom:0;left:0;right:0;top:auto;margin-top:0;background:var(--surface);border-top:1px solid var(--line);border-bottom:none;padding:8px 8px calc(8px + env(safe-area-inset-bottom));justify-content:space-between;gap:2px;box-shadow:0 -4px 16px rgba(0,0,0,.08);}
-  .tab-btn{flex-direction:column;flex:1;padding:7px 4px;font-size:10.5px;border:none;background:none;gap:2px;border-radius:12px;}
+  .tab-btn{flex-direction:column;flex:1;padding:7px 4px;font-size:13px;border:none;background:none;gap:3px;border-radius:12px;}
   .tab-btn span{white-space:nowrap;}
+  .tab-btn .lbl-full{display:none;}
+  .tab-btn .lbl-short{display:inline;}
   .tab-btn[data-active="true"]{box-shadow:none;}
   .race-row-stats{flex-basis:100%;}
 }
@@ -271,11 +279,11 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 </div>
 
 <nav class="tabbar" id="tabbar">
-  <button class="tab-btn" data-tab="climbed" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z"/><circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"/></svg><span>爬過的山</span></button>
-  <button class="tab-btn" data-tab="wishlist" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z" stroke-dasharray="3 2.4"/></svg><span>想爬的山</span></button>
-  <button class="tab-btn" data-tab="yms" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l4-8 3 4 3-7 3 6 2-3 5 8Z"/></svg><span>陽明大縱走</span></button>
-  <button class="tab-btn" data-tab="gear" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V6a5 5 0 0 1 10 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 13h6"/></svg><span>裝備檢查</span></button>
-  <button class="tab-btn" data-tab="races" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 4.6a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" fill="currentColor" stroke="none"/><path d="M13 7.3 9.5 13.8M9.5 13.8 14 16.3 12.4 21M9.5 13.8 6.3 17.4 3.3 16.8M13 8 9.8 7 7.8 4.2M13 8 15.8 10.8 17.3 14.2"/></svg><span>路跑賽事</span></button>
+  <button class="tab-btn" data-tab="climbed" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z"/><circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lbl-full">爬過的山</span><span class="lbl-short">已爬</span></button>
+  <button class="tab-btn" data-tab="wishlist" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 2-3 6 8Z" stroke-dasharray="3 2.4"/></svg><span class="lbl-full">想爬的山</span><span class="lbl-short">想爬</span></button>
+  <button class="tab-btn" data-tab="yms" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l4-8 3 4 3-7 3 6 2-3 5 8Z"/></svg><span class="lbl-full">陽明大縱走</span><span class="lbl-short">陽明</span></button>
+  <button class="tab-btn" data-tab="gear" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V6a5 5 0 0 1 10 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 13h6"/></svg><span class="lbl-full">裝備檢查</span><span class="lbl-short">裝備</span></button>
+  <button class="tab-btn" data-tab="races" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 4.6a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" fill="currentColor" stroke="none"/><path d="M13 7.3 9.5 13.8M9.5 13.8 14 16.3 12.4 21M9.5 13.8 6.3 17.4 3.3 16.8M13 8 9.8 7 7.8 4.2M13 8 15.8 10.8 17.3 14.2"/></svg><span class="lbl-full">路跑賽事</span><span class="lbl-short">路跑</span></button>
 </nav>
 
 <main>
@@ -648,7 +656,7 @@ function renderYMS(){
     const dots = y.checkpoints.map((c,ci)=>{
       if(!c.time) return `<span class="dot"></span>`;
       const pos = -(ci*(dotW+dotGap));
-      return `<span class="dot hit" style="background-image:linear-gradient(90deg, var(--brand-ink), var(--brand));background-size:${rowW}px 100%;background-position:${pos}px 0;"></span>`;
+      return `<span class="dot hit" style="background-image:linear-gradient(90deg, var(--accent), var(--brand));background-size:${rowW}px 100%;background-position:${pos}px 0;"></span>`;
     }).join('');
     const lastHit = [...y.checkpoints].reverse().find(c=>c.time);
     return `<article class="card yms-row" data-idx="${i}">
@@ -828,27 +836,12 @@ function confirmDanger(msg, onYes){
   $('#confirmNo').addEventListener('click', closeModal);
 }
 
-$('#newChecklistBtn').addEventListener('click', ()=>{
+$('#newChecklistBtn').addEventListener('click', async ()=>{
   const today = new Date().toISOString().slice(0,10);
-  openModal(`
-    <h3>新增檢查清單</h3>
-    <p class="sub-note">會先帶入常用裝備範本，建立後可以自己增刪修改</p>
-    <div class="field-row">
-      <div class="field"><label>日期</label><input type="date" id="newDate" value="${today}"></div>
-      <div class="field"><label>清單名稱</label><input type="text" id="newName" placeholder="例如：雪山主東 單攻"></div>
-    </div>
-    <div class="field-row"><button class="btn-primary" id="createBtn" type="button" style="width:100%;justify-content:center">建立清單</button></div>
-  `);
-  $('#newName').focus();
-  $('#createBtn').addEventListener('click', async ()=>{
-    const date = $('#newDate').value || today;
-    const name = $('#newName').value.trim() || '未命名清單';
-    const items = DATA.checklistTemplate.map((t,i)=>({id:'i'+i, text:t.text, category:t.category, checked:false}));
-    const id = await Store.create({date, name, createdAt: Date.now(), items});
-    closeModal(); toast('清單建立完成');
-    await refreshChecklists();
-    openGearDetail(id);
-  });
+  const items = DATA.checklistTemplate.map((t,i)=>({id:'i'+i, text:t.text, category:t.category, checked:false}));
+  const id = await Store.create({date: today, name: '新清單', createdAt: Date.now(), items});
+  await refreshChecklists();
+  openGearDetail(id);
 });
 
 function openGearDetail(id){
