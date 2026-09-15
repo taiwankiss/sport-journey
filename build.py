@@ -1,9 +1,19 @@
-import csv, json, re, sys
+import csv, json, os, re, sys
 from cwa_pids import cwa_links
 
+# BUILD_TARGET=artifact (default) -> photo URLs point at Claude Artifact's
+# hosted blob assets (/_blob/<id>), used when publishing to the Artifact.
+# BUILD_TARGET=pages -> photo URLs are local relative paths under
+# images/mountains/, used for the GitHub Pages mirror in docs/.
+TARGET = os.environ.get('BUILD_TARGET', 'artifact')
+OUT_FILE = os.environ.get('BUILD_OUT', 'data.json' if TARGET == 'artifact' else 'docs/data.json')
+
 PHOTO_ASSETS = json.load(open('photo_assets.json', encoding='utf-8'))['mountains']
+LOCAL_PHOTOS = json.load(open('docs/photo_map.local.json', encoding='utf-8')) if TARGET == 'pages' else {}
 
 def photo_url(name):
+    if TARGET == 'pages':
+        return LOCAL_PHOTOS.get(name)
     aid = PHOTO_ASSETS.get(name)
     return ('/_blob/' + aid) if aid else None
 
@@ -254,7 +264,7 @@ data = {
     'checklistTemplate': template_items,
 }
 
-with open('data.json', 'w', encoding='utf-8') as f:
+with open(OUT_FILE, 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=1)
 
 print('races', len(races))
