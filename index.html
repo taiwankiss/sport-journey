@@ -667,6 +667,11 @@ document.addEventListener('click', (e)=>{
   const row = e.target.closest('.race-row');
   if(row){ openRaceDetail(DATA.races[+row.dataset.idx]); }
 });
+/* Per-photo face position override, since a single top-anchored crop doesn't suit every shot. */
+const RACE_PHOTO_POSITION = {
+  '2024/10/27': '50% 15%', /* 長榮航空馬拉松 */
+  '2025/3/9': '50% 31%',   /* 臺北國道馬拉松 */
+};
 function openRaceDetail(r){
   if(r.upcoming){
     openModal(`
@@ -677,7 +682,7 @@ function openRaceDetail(r){
     return;
   }
   openModal(`
-    ${r.photoUrl ? `<img class="modal-photo modal-photo-top" src="${esc(r.photoUrl)}" alt="${esc(r.name)}">` : ''}
+    ${r.photoUrl ? `<img class="modal-photo modal-photo-top" src="${esc(r.photoUrl)}" alt="${esc(r.name)}"${RACE_PHOTO_POSITION[r.date] ? ` style="object-position:${RACE_PHOTO_POSITION[r.date]}"` : ''}>` : ''}
     <h3>${esc(r.name)}</h3>
     <div class="mtn-sub">${ICONS.calendar} ${esc(r.date)} · <span class="badge event">${esc(r.event)}${r.group?(' · '+esc(r.group)):''}</span></div>
     <div class="race-stats" style="margin-top:12px">
