@@ -143,7 +143,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
   .mtn-list-row,.wish-list-row{padding-right:38px;}
 }
 .climbed-summary{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;padding:14px 18px;margin-bottom:14px;}
-.summary-stat{display:flex;flex-direction:column;gap:2px;flex:none;}
+.summary-stat{display:flex;flex-direction:column;gap:3px;flex:none;}
 .summary-stat b{font-family:"Poppins",sans-serif;font-size:19px;font-weight:700;color:var(--brand-ink);line-height:1.1;}
 .summary-stat span{font-size:10.5px;color:var(--ink-faint);}
 .summary-peak{flex:1;min-width:60px;display:flex;flex-direction:column;gap:2px;}
@@ -413,7 +413,6 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
     <div class="climbed-summary" id="racesSummary">
       <div class="summary-stat"><b id="raceSumDistance">–</b><span>總里程 km</span></div>
       <div class="summary-stat"><b id="raceSumTime">–</b><span>累積時間</span></div>
-      <div class="summary-stat"><b id="raceSumCount">–</b><span>完成賽事</span></div>
       <div class="summary-peak">
         <div class="summary-peak-head"><span>馬拉松</span><b><span class="progress-num" id="raceProgressLabel">0</span>/100</b></div>
         <div class="progress-track"><div class="progress-fill" id="raceProgressFill"></div></div>
@@ -619,7 +618,6 @@ function renderRaces(){
   const totalSecs = done.reduce((s,r)=> { const sec = timeSeconds(r.personalTime); return s + (isNaN(sec)?0:sec); }, 0);
   $('#raceSumDistance').textContent = Math.round(totalDist).toLocaleString();
   $('#raceSumTime').textContent = secondsToHMS(totalSecs);
-  $('#raceSumCount').textContent = done.length;
   $('#raceProgressLabel').textContent = done.length;
   $('#raceProgressFill').style.width = Math.min(100, done.length) + '%';
 
