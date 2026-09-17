@@ -106,7 +106,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .panel{display:none;animation:fadein .35s ease;}
 .panel[data-active="true"]{display:block;}
 @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-.mtn-card,.wish-card,.race-row,.yms-row,.gear-card{opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.22,.9,.3,1), transform .5s cubic-bezier(.22,.9,.3,1);}
+.mtn-card,.wish-card,.race-row,.yms-row,.gear-card{opacity:0;transform:translateY(14px);}
 .mtn-card.is-visible,.wish-card.is-visible,.race-row.is-visible,.yms-row.is-visible,.gear-card.is-visible{opacity:1;transform:none;}
 @media (prefers-reduced-motion: reduce){
   .mtn-card,.wish-card,.race-row,.yms-row,.gear-card{opacity:1;transform:none;transition:none;}
@@ -187,10 +187,10 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .race-cert-img{width:100%;border-radius:14px;display:block;border:1px solid var(--line);}
 
 /* mountain card */
-.mtn-card{cursor:pointer;padding:0;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;}
+.mtn-card{cursor:pointer;padding:0;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease, opacity 1s cubic-bezier(.22,.9,.3,1);}
 .mtn-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
 .mtn-list-row:hover{transform:none;box-shadow:var(--shadow-sm);}
-.race-row,.yms-row,.gear-card{transition:transform .12s ease;}
+.race-row,.yms-row,.gear-card{transition:transform .12s ease, opacity 1s cubic-bezier(.22,.9,.3,1);}
 .mtn-card:active,.wish-card:active,.race-row:active,.yms-row:active,.gear-card:active{transform:scale(.97);}
 .mtn-art{width:100%;aspect-ratio:16/10;display:block;background:var(--surface-2);overflow:hidden;position:relative;}
 .mtn-art::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg, var(--surface-2) 25%, var(--surface) 50%, var(--surface-2) 75%);background-size:200% 100%;animation:imgShimmer 1.4s ease-in-out infinite;}
@@ -201,6 +201,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 @media (prefers-reduced-motion: reduce){.mtn-art::before{animation:none;}}
 .mtn-art img,.mtn-art svg{width:100%;height:100%;object-fit:cover;display:block;}
 .modal-photo{width:calc(100% + 40px + var(--sbw,0px));margin:-22px calc(-20px - var(--sbw,0px)) 14px -20px;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:24px 24px 0 0;}
+.modal-photo-top{object-position:center top;}
 .weather-link{display:inline-flex;align-items:center;gap:6px;background:var(--accent-bg);color:var(--accent-ink);font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:999px;text-decoration:none;}
 .permit-link{display:inline-flex;align-items:center;gap:6px;background:var(--purple-bg);color:var(--purple-ink);font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:999px;text-decoration:none;}
 .weather-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
@@ -216,7 +217,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .mtn-stats b{color:var(--ink);font-family:"Poppins",sans-serif;font-weight:500;}
 
 /* wishlist card */
-.wish-card{cursor:pointer;padding:0;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;}
+.wish-card{cursor:pointer;padding:0;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease, opacity 1s cubic-bezier(.22,.9,.3,1);}
 .wish-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
 .wish-list-row:hover{transform:none;box-shadow:var(--shadow-sm);}
 .wish-name{font-size:16.5px;font-weight:700;margin:0;}
@@ -688,7 +689,7 @@ function openRaceDetail(r){
     return;
   }
   openModal(`
-    ${r.photoUrl ? `<img class="modal-photo" src="${esc(r.photoUrl)}" alt="${esc(r.name)}">` : ''}
+    ${r.photoUrl ? `<img class="modal-photo modal-photo-top" src="${esc(r.photoUrl)}" alt="${esc(r.name)}">` : ''}
     <h3>${esc(r.name)}</h3>
     <div class="mtn-sub">${ICONS.calendar} ${esc(r.date)} · <span class="badge event">${esc(r.event)}${r.group?(' · '+esc(r.group)):''}</span></div>
     <div class="race-stats" style="margin-top:12px">
@@ -1305,13 +1306,16 @@ boot();
   const tabbar = document.getElementById('tabbar');
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const factor = 0.35;
+  const zoomFactor = 0.0003;
+  const zoomCap = 500;
   let ticking = false;
   function update(){
     if(bg && hero && !reduceMotion){
       const heroBottom = hero.getBoundingClientRect().bottom;
       if(heroBottom > 0){
         const y = window.scrollY || window.pageYOffset || 0;
-        bg.style.transform = 'translate3d(0,' + (y * factor) + 'px,0)';
+        const scale = 1 + Math.min(y, zoomCap) * zoomFactor;
+        bg.style.transform = 'translate3d(0,' + (y * factor) + 'px,0) scale(' + scale.toFixed(4) + ')';
       }
     }
     if(tabbar){
