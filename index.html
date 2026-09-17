@@ -96,10 +96,10 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .panel{display:none;animation:fadein .35s ease;}
 .panel[data-active="true"]{display:block;}
 @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-@keyframes itemIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-.mtn-card,.wish-card,.race-row,.yms-row,.gear-card{animation:itemIn .45s cubic-bezier(.22,.9,.3,1) backwards;animation-delay:calc(min(var(--i,0),14) * 28ms);}
+.mtn-card,.wish-card,.race-row,.yms-row,.gear-card{opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.22,.9,.3,1), transform .5s cubic-bezier(.22,.9,.3,1);}
+.mtn-card.is-visible,.wish-card.is-visible,.race-row.is-visible,.yms-row.is-visible,.gear-card.is-visible{opacity:1;transform:none;}
 @media (prefers-reduced-motion: reduce){
-  .mtn-card,.wish-card,.race-row,.yms-row,.gear-card{animation:none;}
+  .mtn-card,.wish-card,.race-row,.yms-row,.gear-card{opacity:1;transform:none;transition:none;}
 }
 .confetti-burst{position:fixed;top:50%;left:50%;width:0;height:0;z-index:300;pointer-events:none;}
 .confetti-burst span{position:absolute;top:0;left:0;width:7px;height:7px;border-radius:2px;animation:confettiPop .95s cubic-bezier(.2,.8,.3,1) forwards;}
@@ -133,7 +133,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
   .mtn-list-row,.wish-list-row{padding-right:38px;}
 }
 .climbed-summary{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;padding:14px 18px;margin-bottom:14px;}
-.summary-stat{display:flex;flex-direction:column;gap:3px;flex:none;}
+.summary-stat{display:flex;flex-direction:column;gap:4px;flex:none;}
 .summary-stat b{font-family:"Poppins",sans-serif;font-size:19px;font-weight:700;color:var(--brand-ink);line-height:1.1;}
 .summary-stat span{font-size:10.5px;color:var(--ink-faint);}
 .summary-peak{flex:1;min-width:60px;display:flex;flex-direction:column;gap:2px;}
@@ -141,6 +141,7 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .summary-peak-head b{font-family:"Poppins",sans-serif;color:var(--ink);font-weight:600;}
 .summary-peak-head .progress-num{font-size:18px;font-weight:800;color:var(--brand-ink);}
 .progress-track{height:7px;border-radius:999px;background:var(--surface-2);overflow:hidden;}
+.summary-peak .progress-track{width:90%;}
 .progress-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg, var(--brand-ink), var(--brand));transition:width .6s cubic-bezier(.2,.8,.2,1);}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px;}
 
@@ -445,6 +446,24 @@ const ICONS = {
   headRidge:`<svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l4-8 3 4 3-7 3 6 2-3 5 8Z"/></svg>`,
   headBag:`<svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V6a5 5 0 0 1 10 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 13h6"/></svg>`,
 };
+/* ---------------- scroll-in reveal for cards/rows ---------------- */
+const REVEAL_SELECTOR = '.mtn-card,.wish-card,.race-row,.yms-row,.gear-card';
+const reduceMotionMQ = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+const revealObserver = (typeof IntersectionObserver !== 'undefined') ? new IntersectionObserver((entries)=>{
+  let i = 0;
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting) return;
+    const el = entry.target;
+    el.style.transitionDelay = (Math.min(i,8) * 45) + 'ms';
+    el.classList.add('is-visible');
+    revealObserver.unobserve(el);
+    i++;
+  });
+}, {threshold:0.1, rootMargin:'0px 0px -30px 0px'}) : null;
+function observeReveal(container){
+  if(!revealObserver || (reduceMotionMQ && reduceMotionMQ.matches)) return;
+  container.querySelectorAll(REVEAL_SELECTOR).forEach(el=> revealObserver.observe(el));
+}
 function toast(msg){
   const t = $('#toast'); t.textContent = msg; t.setAttribute('data-show','true');
   clearTimeout(toast._h); toast._h = setTimeout(()=> t.setAttribute('data-show','false'), 2200);
@@ -641,6 +660,7 @@ function renderRaces(){
       </div>
     </article>`;
   }).join('');
+  observeReveal($('#racesGrid'));
 }
 document.addEventListener('click', (e)=>{
   const row = e.target.closest('.race-row');
@@ -777,6 +797,7 @@ function renderClimbed(){
       </div>
     </article>`;
   }).join('') : `<div class="empty-state" style="grid-column:1/-1">${ICONS.search}<div>沒有符合的山</div></div>`;
+  observeReveal($('#climbedGrid'));
 }
 document.addEventListener('click', (e)=>{
   const card = e.target.closest('.mtn-card');
@@ -828,6 +849,7 @@ function renderYMS(){
       <svg class="yms-row-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
     </article>`;
   }).join('');
+  observeReveal($('#ymsGrid'));
 }
 document.addEventListener('click', (e)=>{
   const card = e.target.closest('.yms-row');
@@ -884,6 +906,7 @@ function renderWishlist(){
       </div>
     </article>`;
   }).join('');
+  observeReveal($('#wishlistGrid'));
   $('#wishlistDone').innerHTML = DATA.wishlistDone.length ? `
     <h4 style="font-size:13px;color:var(--ink-faint);font-weight:700;margin:0 0 8px">${ICONS.check} 已完成的階段目標</h4>
     <div class="wish-done-strip">${DATA.wishlistDone.map(n=>`<span class="chip">${esc(n)}</span>`).join('')}</div>
@@ -984,6 +1007,7 @@ function renderGear(){
       <div class="progress-label">${done} / ${total} 項已完成</div>
     </article>`;
   }).join('');
+  observeReveal($('#gearGrid'));
 }
 document.addEventListener('click', async (e)=>{
   const dupCard = e.target.closest('[data-dupcard]');
