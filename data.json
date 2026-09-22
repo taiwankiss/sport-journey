@@ -232,6 +232,35 @@
  ],
  "climbed": [
   {
+   "name": "奇萊南華",
+   "date": "2026/09/21",
+   "region": "花蓮縣",
+   "title": "光被八表",
+   "code": [
+    "百岳#42",
+    "百岳#76"
+   ],
+   "myRank": [
+    "#16",
+    "#17"
+   ],
+   "style": "獨攀",
+   "distanceKm": 42.6,
+   "gainM": 2312,
+   "totalTime": "11:16",
+   "speedKmh": 3.8,
+   "shangHe": 0.7,
+   "route": "雲天宮登山口(3:55)-天池岔路(8:10)-奇萊南峰(9:10)休16-天池岔路(10:02)-南華山(10:31)休10-光被八表(11:44)-天池山莊(12:05)-雲天宮登山口(15:07)",
+   "photoUrl": "/_blob/d9ada8ef1bd638592fc37ee62ca25b2b",
+   "photoThumbUrl": "/_blob/27d4485bbc1d0142206229f622c23d56",
+   "cwaLinks": [
+    {
+     "name": "奇萊主山南峰",
+     "pid": "D014"
+    }
+   ]
+  },
+  {
    "name": "桃山",
    "date": "2026/09/09",
    "region": "台中市",
@@ -1873,32 +1902,10 @@
      "pid": "D079"
     }
    ]
-  },
-  {
-   "name": "奇萊南華",
-   "route": "雲天宮高繞、天池山莊、南華山、奇萊南峰",
-   "needPermit": "入園申請",
-   "parking": "雲天宮",
-   "driveTime": "3:40",
-   "trailhead": "雲天宮",
-   "stay": "",
-   "distance": "40k",
-   "gain": "1200m",
-   "note": "",
-   "elevation": "奇萊南峰 3,357m／南華山 3,182m",
-   "estTime": "約 8.5 小時",
-   "region": "花蓮縣 / 南投縣",
-   "photoUrl": "/_blob/062ad258c0242d22e1da876a69468cd8",
-   "photoThumbUrl": "/_blob/1db1fbd119157abdf26f11036cee75bb",
-   "cwaLinks": [
-    {
-     "name": "奇萊主山南峰",
-     "pid": "D014"
-    }
-   ]
   }
  ],
  "wishlistDone": [
+  "奇萊南華",
   "志佳陽雪山",
   "雪山主北",
   "奇萊主北",
