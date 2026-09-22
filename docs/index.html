@@ -111,15 +111,15 @@ button{font:inherit;cursor:pointer;}
 .tab-btn:nth-of-type(5){--tab-active-bg:var(--accent);}
 @supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
   .tab-btn[data-active="true"]::after{
-    content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+    content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
     pointer-events:none;z-index:2;
     background:conic-gradient(from var(--ring-a,0deg) at 50% 50%,
-      var(--ring-rest) 0deg,
-      var(--ring-rest) 210deg,
-      var(--ring-hot-a) 272deg,
-      var(--ring-hot-b) 297deg,
-      var(--ring-hot-a) 322deg,
-      var(--ring-rest) 360deg);
+      color-mix(in srgb, var(--tab-active-bg) 45%, transparent) 0deg,
+      color-mix(in srgb, var(--tab-active-bg) 45%, transparent) 210deg,
+      color-mix(in srgb, var(--tab-active-bg) 90%, white 10%) 272deg,
+      color-mix(in srgb, var(--tab-active-bg) 55%, white 45%) 297deg,
+      color-mix(in srgb, var(--tab-active-bg) 90%, white 10%) 322deg,
+      color-mix(in srgb, var(--tab-active-bg) 45%, transparent) 360deg);
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;
     mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
