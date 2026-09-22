@@ -22,10 +22,24 @@ GitHub repo: https://github.com/taiwankiss/sport-journey (`origin`/`main`)
 2. `python3 build.py` （產生 artifact 用的 `data.json`）
 3. `BUILD_TARGET=pages python3 build.py` （產生 `docs/data.json`）
 4. `python3 make_docs_html.py` （產生 `docs/index.html`）
-5. 本地起 `python3 -m http.server` 測試 `docs/`，用 Browser 工具實際點過一輪再上線
+5. 驗證改動（見下方「驗證要花多重」的判斷原則，不是每次都要開瀏覽器截圖點一輪）
 6. Publish 到 Artifact：`data.json` 需要先複製到目前工作目錄底下（Artifact 工具的 `files` 只能讀工作目錄內的檔案），複製成 `_data_for_publish.json` 再傳，傳完刪除
 7. `git add` + commit + push（這步會自動觸發 GitHub Pages 跟 Cloudflare Pages 重新部署）
 8. `gh api repos/taiwankiss/sport-journey/pages/builds/latest --jq '{status, error}'` 輪詢直到 `status:built` 再跟使用者回報完成
+
+### 驗證要花多重
+
+截圖跟開瀏覽器點過一輪很花 token，不是每個改動都值得。判斷原則：
+
+- **純 CSS 視覺微調 / 文字內容修改**（顏色、間距、字級、漸層、動畫參數、文案這類）：**不用**截圖或開瀏覽器點過一輪。用 `node --check` + 大括號計數確認語法沒壞，需要的話用 `javascript_exec` 讀 `getComputedStyle` 或 log 一下邏輯值（例如漸層色、排序方向、data-active 狀態）確認數字對了就好。
+- **牽涉互動邏輯、layout 結構、跨分頁共用 class 的改動**（可能波及其他地方、新加的功能、排序/篩選邏輯）：才需要實際開瀏覽器點過、視覺確認沒有壞掉其他分頁。
+- 使用者想「眼見為憑」的時候會直接說，不用預先幫他截。
+
+### 發佈頻率：小改動要攢著一起發
+
+不要每講一句小修改就整套（build ×2 + Artifact publish + git push + 輪詢建置）跑一次——這一套很貴，跑好幾次等於貴好幾倍。原則：
+- 同一波對話裡如果使用者連續丟出好幾個小調整，**先都改完、在本機/Artifact 草稿層級確認邏輯對了**，等使用者說「可以發了」、告一段落、或明顯是最後一個小修改時，才一次跑完整發佈流程（Artifact + git push + 輪詢）。
+- 如果不確定是不是還有下一個小改動要來，可以直接問一句「還有其他要改的嗎，還是現在發布？」而不是預設每次都發。
 
 ## 環境測試注意事項
 
@@ -36,5 +50,6 @@ Browser 工具的分頁如果是隱藏狀態（`document.hidden === true`），`
 ## 使用者偏好
 
 - 溝通語言：繁體中文
-- 每個小改動都直接做完、驗證、發佈到三個平台，不用每次都先問過
+- 小改動直接做完、改完就地確認邏輯對了，不用每次都先問過；但**發佈到三平台這件事要攢著幾個小改動一起做**，不要每個小改動各跑一次完整發佈流程（見上方「發佈頻率」）。原因：2026-09-22 發現連續幾個小調整各自跑一次完整流程（build + 截圖驗證 + Artifact publish + git push + 輪詢建置）非常花 token 跟時間
+- 純 CSS/文案微調不用開瀏覽器截圖確認，看 code 邏輯 + `getComputedStyle` 檢查就好；牽涉 layout/互動邏輯或跨分頁影響的改動才需要實際截圖點過一輪（見上方「驗證要花多重」）
 - CSS 共用 class（例如 `.progress-track`、`.climbed-summary`）常常被兩三個不同分頁共用，改動前要注意是否會波及不想改的地方，必要時用複合選擇器或額外 class 精準 scope
