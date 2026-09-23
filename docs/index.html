@@ -312,6 +312,15 @@ main{max-width:1080px;margin:0 auto;padding:18px 16px 40px;}
 .detail-row span:first-child{color:var(--ink-faint);font-weight:500;flex:none;}
 .detail-row span:last-child{text-align:right;color:var(--ink);}
 .route-box{background:var(--surface-2);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.7;margin-top:6px;color:var(--ink-soft);}
+/* 爬過的山詳情：檢查點直式時間軸，一條直線把每個點串起來，時間收進膠囊 */
+.route-timeline{position:relative;margin-top:8px;padding:2px 4px 2px 20px;}
+.route-timeline::before{content:"";position:absolute;left:4px;top:20px;bottom:20px;width:1.5px;background:var(--line-strong);}
+.route-step{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);}
+.route-step:last-child{border-bottom:none;}
+.route-step::before{content:"";position:absolute;left:-20px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 3px var(--surface);z-index:1;}
+.route-step-name{font-size:13.5px;color:var(--ink);font-weight:500;flex:1;min-width:0;}
+.route-step-rest{margin-left:6px;font-size:11px;font-weight:500;color:var(--ink-faint);white-space:nowrap;}
+.route-time-pill{flex:none;font-size:12px;font-weight:600;color:var(--brand-ink);background:var(--brand-bg);padding:4px 11px;border-radius:999px;white-space:nowrap;}
 .ckpt-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
 .ckpt-table th{text-align:left;font-size:10.5px;color:var(--ink-faint);font-weight:600;padding:4px 6px;}
 .ckpt-table td{padding:7px 6px;border-top:1px solid var(--line);font-family:"Poppins",sans-serif;}
@@ -868,6 +877,33 @@ document.addEventListener('click', (e)=>{
   const card = e.target.closest('.mtn-card');
   if(card){ openClimbedDetail(DATA.climbed[+card.dataset.idx]); }
 });
+/* 行程路線文字（如「雲天宮登山口(3:55)-天池岔路(8:10)-奇萲南峰(9:10)休16-...」）
+   拆成逐點的直式時間軸。原始文字的分隔符號、括號全形半形都不統一，
+   靠「地名緊接著(時間)」這個共同樣式抓出每一個檢查點，抓不到半個就照舊用一整段文字顯示。 */
+function parseRouteSteps(route){
+  const steps = [];
+  const re = /([^\-、()（）]+?)[\(（]\s*(\d{1,2}[:：]\d{1,2})\s*[\)）](休\d+)?/g;
+  let mch;
+  while((mch = re.exec(route))){
+    steps.push({
+      name: mch[1].trim(),
+      time: mch[2].replace('：',':'),
+      rest: mch[3] ? mch[3].replace('休','休息') + '分' : ''
+    });
+  }
+  return steps;
+}
+function routeTimelineHtml(route){
+  const steps = parseRouteSteps(route);
+  if(!steps.length){
+    return `<div class="route-box">${ICONS.compass} ${esc(route)}</div>`;
+  }
+  return `<div class="route-timeline">${steps.map(s=>`
+    <div class="route-step">
+      <span class="route-step-name">${esc(s.name)}${s.rest?`<span class="route-step-rest">${esc(s.rest)}</span>`:''}</span>
+      <span class="route-time-pill mono">${esc(s.time)}</span>
+    </div>`).join('')}</div>`;
+}
 function openClimbedDetail(m){
   const codes = m.code.length ? m.code.join('、') : '—';
   const myrank = m.myRank.length ? m.myRank.join('、') : '';
@@ -886,7 +922,7 @@ function openClimbedDetail(m){
       <div class="detail-row"><span>均速</span><span>${m.speedKmh!=null?m.speedKmh+' km/h':'—'}</span></div>
       ${shangHeLine}
     </div>
-    ${m.route ? `<div class="route-box">${ICONS.compass} ${esc(m.route)}</div>` : ''}
+    ${m.route ? routeTimelineHtml(m.route) : ''}
   `);
 }
 
