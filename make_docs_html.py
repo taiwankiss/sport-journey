@@ -6,8 +6,9 @@ Differences from index.html:
     at publish time, but GitHub Pages serves the file as-is, so it needs
     its own or mobile browsers render at a wide desktop layout viewport
     and zoom out (tiny illegible text).
-  - Hero banner points at the local images/banner.jpg instead of the
-    Claude Artifact blob URL.
+  - Hero poster image and hero video point at the local
+    images/banner-poster.jpg / images/banner.mp4 instead of the Claude
+    Artifact blob URLs.
   - Real favicon / apple-touch-icon / web-manifest links (the Artifact
     platform's `favicon` param is emoji-only, so the custom PNG icon can
     only be wired up for this standalone GitHub Pages copy).
@@ -18,6 +19,7 @@ Pages mirror: `python3 make_docs_html.py`
 import re
 
 BANNER_BLOB_RE = re.compile(r'url\("/_blob/[a-f0-9]+"\)')
+VIDEO_RE = re.compile(r'(<video class="hero-video"[^>]*?) poster="/_blob/[a-f0-9]+" src="/_blob/[a-f0-9]+"')
 TITLE_RE = re.compile(r'<title>.*?</title>')
 
 ICON_LINKS = '''<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
@@ -28,8 +30,10 @@ ICON_LINKS = '''<link rel="icon" type="image/png" sizes="32x32" href="images/fav
 
 src = open('index.html', encoding='utf-8').read()
 
-# swap the hero banner to the local relative path
-out = BANNER_BLOB_RE.sub('url("images/banner.jpg")', src, count=1)
+# swap the hero poster + video to the local relative paths
+out = BANNER_BLOB_RE.sub('url("images/banner-poster.jpg")', src, count=1)
+out, n = VIDEO_RE.subn(r'\1 poster="images/banner-poster.jpg" src="images/banner.mp4"', out, count=1)
+assert n == 1, 'expected the hero <video> tag'
 
 # wrap in a full HTML5 document shell + favicon/manifest links, right after <title>
 m = TITLE_RE.search(out)
