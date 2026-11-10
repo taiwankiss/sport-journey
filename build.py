@@ -104,39 +104,54 @@ races.sort(key=lambda x: x['order'] or 0, reverse=True)
 rows = read_csv('raw-sheet-export/climbed.csv')
 climbed = []
 region_fix = {
+    ('嘉明湖 向陽、三叉', '2026/10/29'): '台東縣',
+    ('奇萊南華', '2026/09/21'): '花蓮縣',
     ('桃山', '2026/09/09'): '台中市',
     ('志佳陽大山', '2025/11/08'): '台中市',
     ('陽明山東西大縱走', '2025/03/21'): '台北市',
-    ('武陵三秀\n池有、品田、桃山', '2024/07/19'): '台中市',
+    ('武陵三秀 池有、品田、桃山', '2024/07/19'): '台中市',
     ('合歡西峰', '2024/05/06'): '南投縣',
     ('合歡東峰', '2020/06/23'): '南投縣',
     ('合歡主峰', '2020/06/22'): '南投縣',
     ('石門山', '2019/06/08'): '南投縣',
 }
+# the sheet renamed a few rows; keep the names the photos and weather links are keyed by
+CLIMBED_NAME_FIX = {'奇萊南華光被八表': '奇萊南華', '池有、品田、桃山': '武陵三秀 池有、品田、桃山'}
+CLIMBED_PHOTO_KEY = {'嘉明湖 向陽、三叉': '嘉明湖'}  # reuse the wishlist photo / weather links
+STYLE_FIX = {'獨攀': '單攻獨攀'}
+
+def peak_code(c):
+    # the sheet now writes "奇萊南#41" / "向陽 #17"; the page counts 百岳 by the "百岳#NN" form
+    c = c.strip()
+    m = re.search(r'#\s*(\d+)$', c)
+    return c if c.startswith('小百岳') or not m else f'百岳#{int(m.group(1)):02d}'
 for r in rows[1:]:
     if not clean(r[0]) or clean(r[0]).startswith('總累積'):
         continue
     name, date, region, title, code, myrank, style, dist, gain, time, speed, shangHe, route, mystery = (r + ['']*14)[:14]
     if not clean(name):
         continue
+    name = clean(name).replace('\n', ' ')
+    name = CLIMBED_NAME_FIX.get(name, name)
+    key = CLIMBED_PHOTO_KEY.get(name, name)
     region = clean(region) or region_fix.get((name, clean(date)), '')
     climbed.append({
-        'name': clean(name).replace('\n', ' '),
+        'name': name,
         'date': clean(date),
         'region': region,
         'title': clean(title).replace('\n', ' / '),
-        'code': [c.strip() for c in clean(code).split('\n') if c.strip()],
+        'code': [peak_code(c) for c in clean(code).split('\n') if c.strip()],
         'myRank': [c.strip() for c in clean(myrank).split('\n') if c.strip()],
-        'style': clean(style),
+        'style': STYLE_FIX.get(clean(style), clean(style)),
         'distanceKm': num(dist),
         'gainM': num(gain),
         'totalTime': clean(time),
         'speedKmh': num(speed),
         'shangHe': num(shangHe),
         'route': clean(route).replace('\n', ' '),
-        'photoUrl': photo_url(clean(name).replace('\n', ' ')),
-        'photoThumbUrl': photo_thumb_url(clean(name).replace('\n', ' ')),
-        'cwaLinks': cwa_links(clean(name).replace('\n', ' ')),
+        'photoUrl': photo_url(key),
+        'photoThumbUrl': photo_thumb_url(key),
+        'cwaLinks': cwa_links(key),
     })
 climbed.sort(key=lambda x: x['date'], reverse=True)
 
