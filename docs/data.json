@@ -1870,33 +1870,6 @@
    ]
   },
   {
-   "name": "嘉明湖",
-   "route": "向陽山 三叉山",
-   "needPermit": "",
-   "parking": "向陽國家森林遊樂區",
-   "driveTime": "搭火車4hr 機車1hr",
-   "trailhead": "",
-   "stay": "",
-   "distance": "26k",
-   "gain": "1440m",
-   "note": "不需入園證，但向陽山屋／單日名額競爭激烈，需提前上「臺灣登山申請一站式服務網」申請入山證＋向陽名額",
-   "elevation": "向陽山 3,601m／三叉山 3,495m／嘉明湖畔 約3,150m",
-   "estTime": "約 11 小時",
-   "region": "台東縣",
-   "photoUrl": "images/mountains/嘉明湖.jpg",
-   "photoThumbUrl": "images/mountains-thumb/嘉明湖.jpg",
-   "cwaLinks": [
-    {
-     "name": "向陽山",
-     "pid": "D058"
-    },
-    {
-     "name": "三叉山",
-     "pid": "D055"
-    }
-   ]
-  },
-  {
    "name": "玉山北峰",
    "route": "",
    "needPermit": "入園申請",
@@ -1944,15 +1917,16 @@
   }
  ],
  "wishlistDone": [
-  "奇萊南華",
-  "志佳陽雪山",
+  "志佳陽大山",
   "雪山主北",
   "奇萊主北",
   "桃山",
-  "持有、品田",
+  "池有、品田",
   "西巒大山",
-  "合歡西峰",
-  "玉山主峰"
+  "合歡西北峰",
+  "玉山主峰",
+  "奇萊南華",
+  "嘉明湖"
  ],
  "yms": [
   {

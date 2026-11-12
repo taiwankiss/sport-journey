@@ -246,6 +246,13 @@ for r in rows:
     elif section == 'done':
         wishlist_done.append(name.replace('\n', ' '))
 
+# climbed already but still under 待完成 in the sheet; drop a name here once the sheet moves it
+DONE_NOT_IN_SHEET = ['嘉明湖']
+for name in DONE_NOT_IN_SHEET:
+    if name in [w['name'] for w in wishlist]:
+        wishlist = [w for w in wishlist if w['name'] != name]
+        wishlist_done.append(name)
+
 # ---------- 陽明山大縱走 (yms) ----------
 rows = read_csv('raw-sheet-export/yms.csv')
 header = rows[0]
